@@ -6,6 +6,16 @@ import { Login } from "./modules/auth/entry/Login";
 import { dashboardRoutes } from "./modules/dashboard/dashboardRoute";
 import { shopRoutes } from "./modules/shop/shopRoutes";
 import { userRoutes } from "./modules/user/userRoutes";
+import { categoryRoutes } from "./modules/category/categoryRoutes";
+import { itemRoutes } from "./modules/item/itemRoutes";
+import { itemDataRoutes } from "./modules/itemdata/itemDataRoutes";
+import { materialRoutes } from "./modules/material/materialRoutes";
+import { materialDataRoutes } from "./modules/materialdata/materialDataRoutes";
+import { transferItemRoutes } from "./modules/transferitem/transferItemRoutes";
+import { transferMaterialRoutes } from "./modules/transfermaterial/transferMaterialRoutes";
+import { customerRoutes } from "./modules/customer/customerRoutes";
+import { cashierRoutes } from "./modules/cashier/cashierRoutes";
+import { tableRoutes } from "./modules/table/tableRoutes";
 
 
 export const routers = createBrowserRouter([
@@ -17,6 +27,16 @@ export const routers = createBrowserRouter([
             ...dashboardRoutes,
             ...shopRoutes,
             ...userRoutes,
+            ...categoryRoutes,
+            ...itemRoutes,
+            ...itemDataRoutes,
+            ...materialRoutes,
+            ...materialDataRoutes,
+            ...transferItemRoutes,
+            ...transferMaterialRoutes,
+            ...customerRoutes,
+            ...cashierRoutes,
+            ...tableRoutes,
         ],
     },
     {

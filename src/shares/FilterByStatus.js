@@ -1,12 +1,15 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-export const FilterByStatus = ({status, onFilter}) => {
+export const FilterByStatus = ({status, onFilter, paginateParams}) => {
+
+    const [value, setValue] = useState(paginateParams.value)
+
     return (
         <div style={{ paddingTop: "9px" }}>
             <FormControl
                 sx={{
-                    width: '100px',
+                    width: '130px',
                 }}
                 size='small'
             >
@@ -14,7 +17,7 @@ export const FilterByStatus = ({status, onFilter}) => {
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    // value={age}
+                    value={value =="" ? 'ALL' : value}
                     label="Filter"
                     onChange={onFilter}
                 >

@@ -10,10 +10,14 @@ import { userPayload } from "../userPayload";
 import { formBuilder } from "../../../helpers/formBuilder";
 import FormMainAction from "../../../shares/FormMainAction";
 import { ValidationMessage } from '../../../shares/ValidationMessage';
+import { Profile } from '../../../shares/Profile';
+import { getRequest } from '../../../helpers/api';
+import { endpoints } from '../../../constants/endpoints';
 
 export const UserUpdate = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(userPayload.update);
+  const [shops, setShops] = useState([]);
   const { user } = useSelector(state => state.user);
   const params = useParams();
 
@@ -23,14 +27,21 @@ export const UserUpdate = () => {
   const submitUser = async () => {
     setLoading(true);
     const formData = formBuilder(payload, userPayload.update);
-    await userService.update(dispatch, params.id, formData);
+    const response = await userService.update(dispatch, params.id, formData);
+    if(response.status === 200){
+      navigate(paths.user);
+    }
     setLoading(false);
-    navigate(paths.user);
   }
 
   const loadingData = useCallback(async () => {
     setLoading(true);
     await userService.show(dispatch, params.id);
+
+    const shopResult = await getRequest(`${endpoints.shop}`);
+    if (shopResult.status === 200) {
+      setShops(shopResult.data);
+    }
     setLoading(false);
   }, [dispatch, params.id]);
 
@@ -41,7 +52,6 @@ export const UserUpdate = () => {
   useEffect(() => {
     if (user) {
       const updatePayload = { ...user }
-      updatePayload.file_path = null;
       setPayload(updatePayload);
     }
   }, [user])
@@ -54,131 +64,205 @@ export const UserUpdate = () => {
         </div>
 
         <Paper elevation={3} style={{ padding: 20, margin: 10 }}>
-          <Grid container spacing={3}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={12}>
+                    <Stack
+                        spacing={1}
+                        justifyContent="center"
+                        alignItems="center"
+                    >
+                        <Profile
+                            preview={user.image ? user.image : null}
+                            onSelect={(e) => payloadHandler(payload, e, 'image', (updateValue) => {
+                                setPayload(updateValue);
+                            })}
+                        />
+                        <ValidationMessage field={"image"} />
+                    </Stack>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Name (required)
+                        </InputLabel>
+                        <OutlinedInput
+                            type="text"
+                            value={payload.name ? payload.name : ""}
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "name",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="name"
+                            placeholder="Enter User Name"
+                        />
+                        <ValidationMessage field={"name"} />
+                    </Stack>
+                </Grid>
 
-            <Grid item xs={12} md={4}>
-              <Stack spacing={1}>
-                <InputLabel > Name </InputLabel>
-                <OutlinedInput
-                  type="text"
-                  value={payload.name ? payload.name : ""}
-                  onChange={(e) =>
-                    payloadHandler(
-                      payload,
-                      e.target.value,
-                      "name",
-                      (updateValue) => {
-                        setPayload(updateValue);
-                      }
-                    )
-                  }
-                  name="name"
-                  placeholder="Enter User Name"
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Phone 
+                        </InputLabel>
+                        <OutlinedInput
+                            type="number"
+                            value={payload.phone ? payload.phone : ""}
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "phone",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="phone"
+                            placeholder="Enter User Phone"
+                        />
+                        <ValidationMessage field={"phone"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Email (required)
+                        </InputLabel>
+                        <OutlinedInput
+                            type="email"
+                            value={payload.email ? payload.email : ""}
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "email",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="email"
+                            placeholder="Enter User Email"
+                        />
+                        <ValidationMessage field={"email"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Address
+                        </InputLabel>
+                        <OutlinedInput
+                            type="text"
+                            value={payload.address ? payload.address : ""}
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "address",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="address"
+                            placeholder="Enter User Address"
+                        />
+                        <ValidationMessage field={"address"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel > Choose Shop (required) </InputLabel>
+                        <Select
+                        id="shop_id"
+                        value={payload.shop_id ? payload.shop_id : ""}
+                        onChange={(e) =>
+                            payloadHandler(
+                            payload,
+                            e.target.value,
+                            "shop_id",
+                            (updateValue) => {
+                                setPayload(updateValue);
+                            }
+                            )}
+                        name="shop_id"
+                        >
+                        { shops.map((value, index) => {
+                            return (
+                            <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
+                            )
+                        })}
+                        </Select>
+                        <ValidationMessage field={"shop_id"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >Status (required)</InputLabel>
+                        <Select
+                            id="status"
+                            value={payload.status ? payload.status : ""}
+                            onChange={(e) =>
+                            payloadHandler(
+                                payload,
+                                e.target.value,
+                                "status",
+                                (updateValue) => {
+                                setPayload(updateValue);
+                                }
+                            )}
+                            name="status"
+                        >
+                            <MenuItem value="ACTIVE">Active</MenuItem>
+                            <MenuItem value="INACTIVE">Inactive</MenuItem>
+                        </Select>
+                        <ValidationMessage field={"status"} />
+                    </Stack>
+                </Grid>
+
+                {/* <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Password (required)
+                        </InputLabel>
+                        <OutlinedInput
+                            type="password"
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "password",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="password"
+                            placeholder="Enter User Password"
+                        />
+                        <ValidationMessage field={"password"} />
+                    </Stack>
+                </Grid> */}
+
+                <FormMainAction
+                    cancel="Cancle"
+                    cancelClick={() => navigate(paths.user)}
+                    submit="Update"
+                    submitClick={submitUser}
+                    loading={loading}
                 />
-                <ValidationMessage field={"name"} />
-              </Stack>
             </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Stack spacing={1}>
-                <InputLabel >Phone </InputLabel>
-                <OutlinedInput
-                  type="number"
-                  value={payload.phone ? payload.phone : ""}
-                  onChange={(e) =>
-                    payloadHandler(
-                      payload,
-                      e.target.value,
-                      "phone",
-                      (updateValue) => {
-                        setPayload(updateValue);
-                      }
-                    )
-                  }
-                  name="phone"
-                  placeholder="Enter User Phone"
-                />
-                <ValidationMessage field={"phone"} />
-              </Stack>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Stack spacing={1}>
-                <InputLabel > Address </InputLabel>
-                <OutlinedInput
-                  type="text"
-                  value={payload.address ? payload.address : ""}
-                  onChange={(e) =>
-                    payloadHandler(
-                      payload,
-                      e.target.value,
-                      "address",
-                      (updateValue) => {
-                        setPayload(updateValue);
-                      }
-                    )
-                  }
-                  name="address"
-                  placeholder="Enter User Address"
-                />
-                <ValidationMessage field={"address"} />
-              </Stack>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Stack spacing={1}>
-                <InputLabel > Open Time </InputLabel>
-                <OutlinedInput
-                  type="time"
-                  value={payload.open_time ? payload.open_time : ""}
-                  onChange={(e) =>
-                    payloadHandler(
-                      payload,
-                      e.target.value,
-                      "open_time",
-                      (updateValue) => {
-                        setPayload(updateValue);
-                      }
-                    )
-                  }
-                  name="open_time"
-                  placeholder="Enter User Open Time"
-                />
-                <ValidationMessage field={"open_time"} />
-              </Stack>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Stack spacing={1}>
-                <InputLabel > Close Time </InputLabel>
-                <OutlinedInput
-                  type="time"
-                  value={payload.close_time ? payload.close_time : ""}
-                  onChange={(e) =>
-                    payloadHandler(
-                      payload,
-                      e.target.value,
-                      "close_time",
-                      (updateValue) => {
-                        setPayload(updateValue);
-                      }
-                    )
-                  }
-                  name="close_time"
-                  placeholder="Enter User Close Time"
-                />
-                <ValidationMessage field={"close_time"} />
-              </Stack>
-            </Grid>
-
-            <FormMainAction
-              cancel="Cancle"
-              cancelClick={() => navigate(paths.user)}
-              submit="Update"
-              submitClick={submitUser}
-              loading={loading}
-            />
-          </Grid>
         </Paper>
       </div>
     </>

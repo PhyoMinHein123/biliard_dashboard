@@ -10,7 +10,7 @@ export const Profile = ({ preview, onSelect }) => {
 
     const mounted = useCallback(() => {
         if (preview) {
-            setSrc(`${endpoints.image}/${preview}`);
+            setSrc(`${endpoints.image}${preview}`);
         }
     }, [preview]);
 

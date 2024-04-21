@@ -16,6 +16,7 @@ export const userPayload = {
         address: "",
         status: "",
         shop_id: "", 
+        password: ""
     },
     columnsName: 'userColumns',
     columns: [

@@ -19,7 +19,6 @@ import { FilterByStatus } from "../../../shares/FilterByStatus";
 import { FilterByDate } from "../../../shares/FilterByDate";
 import { TableCustomizeSetting } from "../../../shares/TableCustomizeSetting";
 import { alertToggle, setDateFilter } from "../../../shares/shareSlice";
-import TimetoAmPm from "../../../shares/TimetoAmPm";
 import ExportImportButton from "../../../shares/ExportImportButton";
 import SkeletonTable from "../../../shares/SkeletonTable";
 import { getData, setData } from "../../../helpers/localstorage";
@@ -40,8 +39,7 @@ export const UserList = () => {
 
     const [columns, setColumns] = useState(getData(userPayload.columnsName) == null ? userPayload.columns : getData(userPayload.columnsName));
 
-    const userColumns = useRef(userPayload.columns);
-    const userStatus = useRef(['ALL']);
+    const userStatus = useRef(['ALL','ACTIVE','INACTIVE']);
 
     const onPageChange = (event, newPage) => {
         dispatch(
@@ -201,32 +199,32 @@ export const UserList = () => {
                                     <TableCell colSpan={12}>
                                         <Grid container spacing={2} direction="row" sx={{ paddingTop: 1 }}>
 
-                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={7} xl={7} direction="row" justifyContent="flex-start" alignItems="center">
+                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={7} xl={7} direction="row" justifyContent="flex-start" alignTransferItems="center">
                                                 
-                                                <Grid item xs={1}>
+                                                <Grid transferItem xs={1}>
                                                     <TableCustomizeSetting payload={userPayload.columns} columns={columns} setColumns={(e)=>setColumns(e)} />
                                                 </Grid>
 
-                                                {/* <Grid item xs={2}> 
-                                                    <FilterByStatus status={userStatus} onFilter={onFilter} />
-                                                </Grid> */}
+                                                <Grid transferItem xs={2}> 
+                                                    <FilterByStatus paginateParams={paginateParams} status={userStatus} onFilter={onFilter} />
+                                                </Grid>
 
-                                                <Grid item xs={8}>
+                                                <Grid transferItem xs={8}>
                                                     <FilterByDate onFilter={onFilterByDate} />
                                                 </Grid>
 
-                                                <Grid item xs={1}>
+                                                <Grid transferItem xs={1}>
                                                     <ReloadData reloadData={reloadData}/>
                                                 </Grid>
                                                 
                                             </Grid>
-                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={5} xl={5} direction="row" justifyContent="flex-end" alignItems="center">
+                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={5} xl={5} direction="row" justifyContent="flex-end" alignTransferItems="center">
 
-                                                <Grid item>
+                                                <Grid transferItem>
                                                     <ExportImportButton exportExcelData={()=>exportExcelData()} exportPdfData={()=>exportPdfData()} importData={(e)=>importData(e)} exportExcelParamsData={(e)=>exportExcelParamsData(e)} exportPdfParamsData={(e)=>exportPdfParamsData(e)}/>
                                                 </Grid>
 
-                                                <Grid item>
+                                                <Grid transferItem>
                                                     <TableSearch paginateParams={paginateParams} onSearchChange={onSearchChange} />
                                                 </Grid>
 
@@ -283,7 +281,7 @@ export const UserList = () => {
                                                     };
 
                                                     return (
-                                                        <TableCell key={column.id} align={column.align}>
+                                                        <TableCell key={column.id} align={column.align} sx={{ paddingY: 0 }}>
                                                             {switchCase({ column, value })}
                                                         </TableCell>
                                                     );

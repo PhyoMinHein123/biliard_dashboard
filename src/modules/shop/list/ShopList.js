@@ -39,7 +39,6 @@ export const ShopList = () => {
 
     const [columns, setColumns] = useState(getData(shopPayload.columnsName) == null ? shopPayload.columns : getData(shopPayload.columnsName));
 
-    const shopColumns = useRef(shopPayload.columns);
     const shopStatus = useRef(['ALL']);
 
     const onPageChange = (event, newPage) => {
@@ -200,32 +199,32 @@ export const ShopList = () => {
                                     <TableCell colSpan={12}>
                                         <Grid container spacing={2} direction="row" sx={{ paddingTop: 1 }}>
 
-                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={7} xl={7} direction="row" justifyContent="flex-start" alignItems="center">
+                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={7} xl={7} direction="row" justifyContent="flex-start" alignTransferItems="center">
                                                 
-                                                <Grid item xs={1}>
+                                                <Grid transferItem xs={1}>
                                                     <TableCustomizeSetting payload={shopPayload.columns} columns={columns} setColumns={(e)=>setColumns(e)} />
                                                 </Grid>
 
-                                                {/* <Grid item xs={2}> 
-                                                    <FilterByStatus status={shopStatus} onFilter={onFilter} />
+                                                {/* <Grid transferItem xs={2}> 
+                                                    <FilterByStatus paginateParams={paginateParams} status={transferItemStatus} onFilter={onFilter} />
                                                 </Grid> */}
 
-                                                <Grid item xs={8}>
+                                                <Grid transferItem xs={8}>
                                                     <FilterByDate onFilter={onFilterByDate} />
                                                 </Grid>
 
-                                                <Grid item xs={1}>
+                                                <Grid transferItem xs={1}>
                                                     <ReloadData reloadData={reloadData}/>
                                                 </Grid>
                                                 
                                             </Grid>
-                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={5} xl={5} direction="row" justifyContent="flex-end" alignItems="center">
+                                            <Grid container spacing={0.5} xs={12} sm={12} md={12} lg={5} xl={5} direction="row" justifyContent="flex-end" alignTransferItems="center">
 
-                                                <Grid item>
+                                                <Grid transferItem>
                                                     <ExportImportButton exportExcelData={()=>exportExcelData()} exportPdfData={()=>exportPdfData()} importData={(e)=>importData(e)} exportExcelParamsData={(e)=>exportExcelParamsData(e)} exportPdfParamsData={(e)=>exportPdfParamsData(e)}/>
                                                 </Grid>
 
-                                                <Grid item>
+                                                <Grid transferItem>
                                                     <TableSearch paginateParams={paginateParams} onSearchChange={onSearchChange} />
                                                 </Grid>
 
@@ -284,7 +283,7 @@ export const ShopList = () => {
                                                     };
 
                                                     return (
-                                                        <TableCell key={column.id} align={column.align}>
+                                                        <TableCell key={column.id} align={column.align} sx={{ paddingY: 0 }}>
                                                             {switchCase({ column, value })}
                                                         </TableCell>
                                                     );

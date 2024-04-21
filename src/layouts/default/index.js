@@ -162,7 +162,7 @@ export const DefaultLayout = () => {
                             {/* <Typography variant='h5'>Biliard</Typography> */}
                         </DrawerHeader>
                         <Divider />
-                            <List>
+                            <List sx={{overflow: 'scroll', overflowX: 'hidden'}}>
                                 {items.map((nav, index) => (
                                     <div key={index}>
                                         <ListItemButton onClick={() => {

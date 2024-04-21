@@ -120,12 +120,6 @@ export const userService = {
         const response = await postRequest(`${endpoints.user}/import`, payload);
         await httpServiceHandler(dispatch, response);
 
-        if (response.status !== 200) {
-            dispatch(updateNotification({
-                variant : 'danger',
-                  message : response.message
-            }))
-        }
-        return response;
+        return response
     },
 };

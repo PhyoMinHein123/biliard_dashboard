@@ -1,4 +1,4 @@
-import { Grid, InputLabel, OutlinedInput, Stack, Paper, MenuItem, Select } from '@mui/material';
+import { Grid, InputLabel, OutlinedInput, Stack, Paper } from '@mui/material';
 import { paths } from "../../../constants/paths";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,9 +23,11 @@ export const ShopUpdate = () => {
   const submitShop = async () => {
     setLoading(true);
     const formData = formBuilder(payload, shopPayload.update);
-    await shopService.update(dispatch, params.id, formData);
+    const response = await shopService.update(dispatch, params.id, formData);
+    if(response.status === 200){
+      navigate(paths.shop);
+    }
     setLoading(false);
-    navigate(paths.shop);
   }
 
   const loadingData = useCallback(async () => {

@@ -53,10 +53,10 @@ export default function ExportImportButton({ exportExcelData, importData, export
             'aria-labelledby': 'basic-button',
           }}
         >
-          <MenuItem onClick={()=>exportExcelData()}>Excel All Export</MenuItem>
-          <MenuItem onClick={()=>exportExcelParamsData()}>Excel Params Export</MenuItem>
-          <MenuItem onClick={()=>exportPdfData()}>Pdf All Export</MenuItem>
-          <MenuItem onClick={()=>exportPdfParamsData()}>Pdf Params Export</MenuItem>
+          <MenuItem onClick={()=>{exportExcelData();handleClose()}}>Excel All Export</MenuItem>
+          <MenuItem onClick={()=>{exportExcelParamsData();handleClose()}}>Excel Params Export</MenuItem>
+          <MenuItem onClick={()=>{exportPdfData();handleClose()}}>Pdf All Export</MenuItem>
+          <MenuItem onClick={()=>{exportPdfParamsData();handleClose()}}>Pdf Params Export</MenuItem>
         </Menu>
       </Stack>
     </Grid>
