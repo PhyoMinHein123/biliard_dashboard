@@ -3,20 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const dashboardSlice = createSlice({
     name: "dashboard",
     initialState: {
-        votes: [],
-        totaluser: []
+        total_data: [],
+        chart_data: []
     },
     reducers: {
-        uservote: (state, action) => {
-            state.votes = action.payload;
+        totaldata: (state, action) => {
+            state.total_data = action.payload;
             return state;
         },
-        totaluser: (state, action) => {
-            state.totaluser = action.payload;
+        chartdata: (state, action) => {
+            state.chart_data = action.payload;
             return state;
         },
     },
 });
 
-export const { uservote, totaluser } = dashboardSlice.actions;
+export const { totaldata, chartdata } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

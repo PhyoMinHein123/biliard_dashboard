@@ -14,6 +14,7 @@ import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import GroupsIcon from '@mui/icons-material/Groups';
+import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 
 export const items = [
     {
@@ -27,7 +28,7 @@ export const items = [
         key: "2",
         label: "Table",
         data: "Table",
-        icon: <CategoryIcon />,
+        icon: <TableRestaurantIcon />,
         children: [
             {
                 key: "2-1",
@@ -244,6 +245,124 @@ export const items = [
                 label: "Create",
                 icon: <AddIcon />,
                 url: paths.userCreate,
+            },
+        ],
+    },
+];
+
+export const items2 = [
+    {
+        key: "0",
+        label: "Counter",
+        data: "Counter",
+        icon: <InsertChartIcon />,
+        url: "/counter",
+    },
+    {
+        key: "2",
+        label: "Item",
+        data: "Item",
+        icon: <FastfoodIcon />,
+        children: [
+            {
+                key: "2-1",
+                label: "Data",
+                icon: <BarChartIcon />,
+                url: paths.itemData,
+            }
+        ],
+    },
+    {
+        key: "2",
+        label: "Material",
+        data: "Material",
+        icon: <AutoAwesomeMosaicIcon />,
+        children: [
+            {
+                key: "2-1",
+                label: "Data",
+                icon: <BarChartIcon />,
+                url: paths.materialData,
+            }
+        ],
+    },
+    {
+        key: "2",
+        label: "Transfer Item",
+        data: "Transfer Item",
+        icon: <LocalShippingIcon />,
+        children: [
+            {
+                key: "2-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.transferItem,
+            },
+            {
+                key: "2-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.transferItemCreate,
+            },
+        ],
+    },
+    {
+        key: "2",
+        label: "Transfer Material",
+        data: "Transfer Material",
+        icon: <AirportShuttleIcon />,
+        children: [
+            {
+                key: "2-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.transferMaterial,
+            },
+            {
+                key: "2-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.transferMaterialCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Customer",
+        data: "Customer",
+        icon: <GroupsIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.customer,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.customerCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Cashier",
+        data: "Cashier",
+        icon: <Diversity2Icon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.cashier,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.cashierCreate,
             },
         ],
     },

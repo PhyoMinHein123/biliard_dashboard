@@ -39,7 +39,7 @@ export const userPayload = {
     paginateParams: {
         page: 1,
         per_page: 10,
-        columns: "name",
+        columns: "name,phone,email,address",
         search: "",
         order: "id",
         sort: "ASC",

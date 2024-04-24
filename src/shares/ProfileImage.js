@@ -5,18 +5,20 @@ import { endpoints } from '../constants/endpoints';
 
 export const ProfileImage = ({ preview, onSelect }) => {
     
-    const [src, setSrc] = useState(preview);
+    const [src, setSrc] = useState(null);
     const [payload, setPayload] = useState(null);
 
     const mounted = useCallback(() => {
         if (preview) {
-            setSrc(`${endpoints.image}/${preview}`);
+            setSrc(`${endpoints.image}${preview}`);
+        } else {
+            setSrc(null); // Reset src if preview is null
         }
-        onSelect("")
     }, [preview]);
 
     const selectedFile = (e) => {
         setPayload(e.target.files[0]);
+        setSrc(URL.createObjectURL(e.target.files[0])); // Update the src when a new file is selected
         onSelect(e.target.files[0]);
     }
 
@@ -25,11 +27,11 @@ export const ProfileImage = ({ preview, onSelect }) => {
     }, [mounted]);
 
     useEffect(() => {
-        if(payload) {
+        if (payload) {
             const objectUrl = URL.createObjectURL(payload);
             setSrc(objectUrl);
         }
-    },[payload]);
+    }, [payload]);
 
     return (
         <>

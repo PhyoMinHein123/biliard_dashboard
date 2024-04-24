@@ -6,6 +6,7 @@ import { authService } from '../authService';
 import { paths } from '../../../constants/paths';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { payloadHandler } from '../../../helpers/handler';
+import { ValidationMessage } from '../../../shares/ValidationMessage';
 
 export const Login = () => {
 
@@ -33,7 +34,11 @@ export const Login = () => {
         setLoading(false);
 
         if (result.status === 200) {
-            navigate(paths.dashboard);
+            if(result?.data?.original?.user?.shop_id == 1 ){
+                navigate(paths.dashboard);
+            }else{
+                navigate(paths.counter);
+            }
         }
     }
 
@@ -70,6 +75,7 @@ export const Login = () => {
                                 setPayload(updateValue);
                             })}
                         />
+                        <ValidationMessage field={"email"} />
                     </FormControl>
 
                     <FormControl sx={{ width: '100%', marginTop : '10px' }} variant="filled">
@@ -92,6 +98,7 @@ export const Login = () => {
                                 </InputAdornment>
                             }
                         />
+                        <ValidationMessage field={"password"} />
                     </FormControl>
 
                     <Box

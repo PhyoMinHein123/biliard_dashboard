@@ -24,6 +24,9 @@ import { getData, setData } from "../../../helpers/localstorage";
 import ReloadData from "../../../shares/ReloadData";
 import AlertDialog from "../../../shares/AlertDialog";
 import EmptyData from "../../../shares/EmptyData";
+import { endpoints } from "../../../constants/endpoints";
+import { getRequest } from "../../../helpers/api";
+import { FilterByForign } from "../../../shares/FilterByForign";
 
 export const ItemDataList = () => {
     const { itemDatas, paginateParams } = useSelector((state) => state.itemData);
@@ -92,7 +95,7 @@ export const ItemDataList = () => {
           updatePaginateParams.filter = "";
           updatePaginateParams.value = "";
         } else {
-          updatePaginateParams.filter = "status";
+          updatePaginateParams.filter = "shop_id";
           updatePaginateParams.value = e?.target?.value;
         }
         dispatch(setPaginate(updatePaginateParams));
@@ -167,10 +170,15 @@ export const ItemDataList = () => {
                 result.data.total
             );
         }
-        setIsLoading(false)
         if(getData(itemDataPayload.columnsName) == null){
             setData(itemDataPayload.columnsName, itemDataPayload.columns)
         }
+        const shopResult = await getRequest(`${endpoints.shop}`);
+        if (shopResult.status === 200) {
+            itemDataStatus.current = shopResult.data;
+            itemDataStatus.current.unshift({ id: '', name: 'ALL' })
+        }
+        setIsLoading(false)
     }, [dispatch, paginateParams]);
 
     useEffect(() => {
@@ -203,9 +211,9 @@ export const ItemDataList = () => {
                                                     <TableCustomizeSetting payload={itemDataPayload.columns} columns={columns} setColumns={(e)=>setColumns(e)} />
                                                 </Grid>
 
-                                                {/* <Grid itemData xs={2}> 
-                                                    <FilterByStatus paginateParams={paginateParams} status={itemDataStatus} onFilter={onFilter} />
-                                                </Grid> */}
+                                                <Grid itemData xs={2}> 
+                                                    <FilterByForign paginateParams={paginateParams} status={itemDataStatus} onFilter={onFilter} />
+                                                </Grid>
 
                                                 <Grid itemData xs={8}>
                                                     <FilterByDate onFilter={onFilterByDate} />

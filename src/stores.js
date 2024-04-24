@@ -15,6 +15,7 @@ import transferMaterialSlice from "./modules/transfermaterial/transferMaterialSl
 import customerSlice from "./modules/customer/customerSlice";
 import cashierSlice from "./modules/cashier/cashierSlice";
 import tableSlice from "./modules/table/tableSlice";
+import counterSlice from "./modules/counter/counterSlice";
 
 export const stores = configureStore({
     reducer: {
@@ -33,6 +34,7 @@ export const stores = configureStore({
         customer: customerSlice,
         cashier: cashierSlice,
         table: tableSlice,
+        counter: counterSlice
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

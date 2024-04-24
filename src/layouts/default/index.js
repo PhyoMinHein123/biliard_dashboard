@@ -9,7 +9,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@emotion/react';
-import { items } from './defaultPaths';
+import { items, items2 } from './defaultPaths';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Tooltip from '@mui/material/Tooltip';
@@ -23,15 +23,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import CloseIcon from '@mui/icons-material/Close';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { paths } from '../../constants/paths';
+import { endpoints } from '../../constants/endpoints';
 
 export const DefaultLayout = () => {
-
 
     const theme = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const profileOpen = Boolean(anchorEl);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [user, setUser] = useState();
     const [expandedIndex, setExpandedIndex] = useState(-1);
 
@@ -109,7 +109,7 @@ export const DefaultLayout = () => {
                                     aria-haspopup="true"
                                     aria-expanded={profileOpen ? 'true' : undefined}
                                 >
-                                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                                    <Avatar sx={{ width: 32, height: 32 }} src={user?.image ? `${endpoints.image}${user.image}` : null} />
                                 </IconButton>
                                 <IconButton
                                     id="basic-button"
@@ -163,7 +163,8 @@ export const DefaultLayout = () => {
                         </DrawerHeader>
                         <Divider />
                             <List sx={{overflow: 'scroll', overflowX: 'hidden'}}>
-                                {items.map((nav, index) => (
+                                {user?.shop_id == 1 ? 
+                                (items.map((nav, index) => (
                                     <div key={index}>
                                         <ListItemButton onClick={() => {
                                             toogleExpand(index);
@@ -206,27 +207,69 @@ export const DefaultLayout = () => {
                                             )
                                         }
                                     </div>
-                                ))}
+                                ))):(items2.map((nav, index) => (
+                                    <div key={index}>
+                                        <ListItemButton onClick={() => {
+                                            toogleExpand(index);
+                                            if (nav.url) {
+                                                navigate(nav.url)
+                                            }
+                                        }
+                                        }>
+                                            <ListItemIcon>
+                                                {nav.icon}
+                                            </ListItemIcon>
+                                            <ListItemText primary={nav.label} />
+                                            {nav?.children?.length > 0 && (
+                                                expandedIndex === index ? <ExpandLess /> : <ExpandMore />
+                                            )}
+                                        </ListItemButton>
+
+                                        {
+                                            nav?.children?.length > 0 && (
+                                                <Collapse in={expandedIndex === index} timeout="auto" unmountOnExit>
+                                                    <List component="div" disablePadding>
+                                                        {
+                                                            nav.children.map((child, index) => (
+                                                                <ListItemButton
+                                                                    onClick={() => {
+                                                                        navigate(child.url)
+                                                                    }}
+                                                                    key={child.key}
+                                                                    sx={{ pl: 4 }}
+                                                                >
+                                                                    <ListItemIcon>
+                                                                        {child.icon}
+                                                                    </ListItemIcon>
+                                                                    <ListItemText primary={child.label} />
+                                                                </ListItemButton>
+                                                            ))
+                                                        }
+                                                    </List>
+                                                </Collapse>
+                                            )
+                                        }
+                                    </div>
+                                )))}
+                                <Divider />
+                                <ListItemButton onClick={()=>navigate(paths.admin)}>
+                                    <ListItemIcon>
+                                        <AccountCircleIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        {user?.name}
+                                    </ListItemText>
+                                </ListItemButton>
+                                <ListItemButton onClick={logout}>
+                                    <ListItemIcon>
+                                        <LogoutIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>
+                                        Logout
+                                    </ListItemText>
+                                </ListItemButton>
                             </List>
                         <Divider />
-                        <List>
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <AccountCircleIcon />
-                                </ListItemIcon>
-                                <ListItemText>
-                                    {user?.name}
-                                </ListItemText>
-                            </ListItemButton>
-                            <ListItemButton onClick={logout}>
-                                <ListItemIcon>
-                                    <LogoutIcon />
-                                </ListItemIcon>
-                                <ListItemText>
-                                    Logout
-                                </ListItemText>
-                            </ListItemButton>
-                        </List>
                     </Drawer>
                     <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                         <DrawerHeader />

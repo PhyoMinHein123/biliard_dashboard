@@ -3,18 +3,18 @@ import { paths } from "../../../constants/paths";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userService } from "../userService";
 import { payloadHandler } from "../../../helpers/handler";
 import { Breadcrumb } from '../../../shares/Breadcrumbs'
-import { userPayload } from "../userPayload";
 import { formBuilder } from "../../../helpers/formBuilder";
 import FormMainAction from "../../../shares/FormMainAction";
 import { ValidationMessage } from '../../../shares/ValidationMessage';
 import { Profile } from '../../../shares/Profile';
 import { getRequest } from '../../../helpers/api';
 import { endpoints } from '../../../constants/endpoints';
+import { userService } from '../../user/userService';
+import { userPayload } from '../../user/userPayload';
 
-export const UserUpdate = () => {
+export const AdminUpdate = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(userPayload.update);
   const [shops, setShops] = useState([]);
@@ -28,9 +28,7 @@ export const UserUpdate = () => {
     setLoading(true);
     const formData = formBuilder(payload, userPayload.update);
     const response = await userService.update(dispatch, params.id, formData);
-    if(response.status === 200){
-      navigate(paths.user);
-    }
+    
     setLoading(false);
   }
 

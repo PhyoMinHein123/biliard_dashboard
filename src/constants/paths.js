@@ -1,6 +1,8 @@
 export const paths = {
     dashboard: "/dashboard",
 
+    counter: "/counter",
+
     shop: "/shop",
     shopCreate: "/shop/new",
 
@@ -36,6 +38,8 @@ export const paths = {
 
     user: "/user",
     userCreate: "/user/new",
+
+    admin: "/admin",
 
     adminLogout: "/auth/login",
 };

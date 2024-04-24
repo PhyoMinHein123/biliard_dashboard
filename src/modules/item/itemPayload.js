@@ -35,7 +35,7 @@ export const itemPayload = {
     paginateParams: {
         page: 1,
         per_page: 10,
-        columns: "name",
+        columns: "name,price,purchase_price",
         search: "",
         order: "id",
         sort: "ASC",

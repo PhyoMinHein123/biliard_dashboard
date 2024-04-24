@@ -32,7 +32,7 @@ export const tablePayload = {
     paginateParams: {
         page: 1,
         per_page: 10,
-        columns: "name",
+        columns: "name,description",
         search: "",
         order: "id",
         sort: "ASC",
