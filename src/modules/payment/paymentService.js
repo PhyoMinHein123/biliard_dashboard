@@ -1,15 +1,15 @@
 import { endpoints } from "../../constants/endpoints";
 import { delRequest, featchGetRequest, getRequest, postRequest } from "../../helpers/api";
 import { httpServiceHandler } from "../../helpers/handler";
-import { updateNotification, updateUser } from "../../shares/shareSlice";
-import { index, update } from "./userSlice";
-import { getData, setData } from "../../helpers/localstorage";
+import { updateNotification } from "../../shares/shareSlice";
+import { index, update } from "./paymentSlice";
+import { getData } from "../../helpers/localstorage";
 import { keys } from "../../constants/config";
 import { baseURL } from "../../constants/endpoints";
 
-export const userService = {
+export const paymentService = {
     store: async (payload, dispatch) => {
-        const response = await postRequest(endpoints.user, payload);
+        const response = await postRequest(endpoints.payment, payload);
         await httpServiceHandler(dispatch, response);
 
         if (response.status === 200) {
@@ -21,7 +21,7 @@ export const userService = {
         return response;
     },
     index: async (dispatch, params) => {
-        const response = await getRequest(endpoints.user, params);
+        const response = await getRequest(endpoints.payment, params);
         await httpServiceHandler(dispatch, response);
 
         if (response.status === 200) {
@@ -38,15 +38,10 @@ export const userService = {
         return response;
     },
     update: async (dispatch, id, payload) => {
-        const response = await postRequest(`${endpoints.user}/${id}`, payload);
+        const response = await postRequest(`${endpoints.payment}/${id}`, payload);
         await httpServiceHandler(dispatch, response);
 
         if(response.status === 200) {
-            const data = getData(keys.USER)
-            if(data.id === response.data.id){
-                setData(keys.USER, response.data);
-                dispatch(updateUser(response.data));
-            }
             dispatch(update(response.data));
             dispatch(updateNotification({
                 variant : 'success',
@@ -56,7 +51,7 @@ export const userService = {
         return response;
     },
     show: async (dispatch, id) => {
-        const response = await getRequest(`${endpoints.user}/${id}`);
+        const response = await getRequest(`${endpoints.payment}/${id}`);
         await httpServiceHandler(dispatch, response);
 
         if(response.status === 200) {
@@ -66,7 +61,7 @@ export const userService = {
         return response;
     },
     destory: async (dispatch, id) => {
-        const response = await delRequest(`${endpoints.user}/${id}`);
+        const response = await delRequest(`${endpoints.payment}/${id}`);
         await httpServiceHandler(dispatch, response);
 
         // if (response.status === 200) {
@@ -78,7 +73,7 @@ export const userService = {
         return response;
     },
     exportexcel: async (dispatch, params) => {
-        const response = await featchGetRequest(`${baseURL}/${endpoints.user}/exportexcel`, params)
+        const response = await featchGetRequest(`${baseURL}/${endpoints.payment}/exportexcel`, params)
 
         if (response.status === 200) {
             dispatch(updateNotification({
@@ -89,7 +84,7 @@ export const userService = {
         return response;
     },
     exportexcelparams: async (dispatch, params) => {
-        const response = await featchGetRequest(`${baseURL}/${endpoints.user}/exportexcelparams`, params)
+        const response = await featchGetRequest(`${baseURL}/${endpoints.payment}/exportexcelparams`, params)
 
         if (response.status === 200) {
             dispatch(updateNotification({
@@ -100,7 +95,7 @@ export const userService = {
         return response
     },
     exportpdf: async (dispatch, params) => {
-        const response = await featchGetRequest(`${baseURL}/${endpoints.user}/exportpdf`, params, "pdf")
+        const response = await featchGetRequest(`${baseURL}/${endpoints.payment}/exportpdf`, params, "pdf")
 
         if (response.status === 200) {
             dispatch(updateNotification({
@@ -111,7 +106,7 @@ export const userService = {
         return response
     },
     exportpdfparams: async (dispatch, params) => {
-        const response = await featchGetRequest(`${baseURL}/${endpoints.user}/exportpdfparams`, params, "pdf")
+        const response = await featchGetRequest(`${baseURL}/${endpoints.payment}/exportpdfparams`, params, "pdf")
 
         if (response.status === 200) {
             dispatch(updateNotification({
@@ -122,9 +117,9 @@ export const userService = {
         return response
     },
     import: async (payload, dispatch) => {
-        const response = await postRequest(`${endpoints.user}/import`, payload);
+        const response = await postRequest(`${endpoints.payment}/import`, payload);
         await httpServiceHandler(dispatch, response);
 
-        return response
+        return response;
     },
 };

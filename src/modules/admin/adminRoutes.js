@@ -4,7 +4,7 @@ import { AdminUpdate } from "./entry/AdminUpdate";
 export const adminRoutes = [
     {
         id: "admin",
-        path: `/${paths.user}/:id`,
+        path: paths.admin,
         element: <AdminUpdate />,
         loader: () => {
             return {

@@ -3,48 +3,44 @@ import { paths } from "../../../constants/paths";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { tableService } from "../tableService";
+import { billService } from "../billService";
 import { payloadHandler } from "../../../helpers/handler";
 import { Breadcrumb } from '../../../shares/Breadcrumbs'
-import { tablePayload } from "../tablePayload";
+import { billPayload } from "../billPayload";
 import { formBuilder } from "../../../helpers/formBuilder";
 import FormMainAction from "../../../shares/FormMainAction";
 import { ValidationMessage } from '../../../shares/ValidationMessage';
+import { Profile } from '../../../shares/Profile';
 import { getRequest } from '../../../helpers/api';
 import { endpoints } from '../../../constants/endpoints';
 
-export const TableUpdate = () => {
+export const BillUpdate = () => {
   const [loading, setLoading] = useState(false);
-  const [payload, setPayload] = useState(tablePayload.update);
-  const [cashiers, setCashiers] = useState([]);
+  const [payload, setPayload] = useState(billPayload.update);
   const [shops, setShops] = useState([]);
-  const { table } = useSelector(state => state.table);
+  const { bill } = useSelector(state => state.bill);
   const params = useParams();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const submitTable = async () => {
+  const submitBill = async () => {
     setLoading(true);
-    const formData = formBuilder(payload, tablePayload.update);
-    const response = await tableService.update(dispatch, params.id, formData);
+    const formData = formBuilder(payload, billPayload.update);
+    const response = await billService.update(dispatch, params.id, formData);
     if(response.status === 200){
-      navigate(paths.table);
+      navigate(paths.bill);
     }
     setLoading(false);
   }
 
   const loadingData = useCallback(async () => {
     setLoading(true);
-    await tableService.show(dispatch, params.id);
+    await billService.show(dispatch, params.id);
 
-    const cashierResult = await getRequest(`${endpoints.cashier}`);
-    if (cashierResult.status === 200) {
-        setCashiers(cashierResult.data);
-    }
     const shopResult = await getRequest(`${endpoints.shop}`);
     if (shopResult.status === 200) {
-        setShops(shopResult.data);
+      setShops(shopResult.data);
     }
     setLoading(false);
   }, [dispatch, params.id]);
@@ -54,11 +50,11 @@ export const TableUpdate = () => {
   }, [loadingData]);
 
   useEffect(() => {
-    if (table) {
-      const updatePayload = { ...table }
+    if (bill) {
+      const updatePayload = { ...bill }
       setPayload(updatePayload);
     }
-  }, [table])
+  }, [bill])
 
   return (
     <>
@@ -69,7 +65,7 @@ export const TableUpdate = () => {
 
         <Paper elevation={3} style={{ padding: 20, margin: 10 }}>
             <Grid container spacing={3}>
-
+                
                 <Grid item xs={12} md={4}>
                     <Stack spacing={1}>
                         <InputLabel >
@@ -89,7 +85,7 @@ export const TableUpdate = () => {
                                 )
                             }
                             name="name"
-                            placeholder="Enter Table Name"
+                            placeholder="Enter Bill Name"
                         />
                         <ValidationMessage field={"name"} />
                     </Stack>
@@ -98,87 +94,62 @@ export const TableUpdate = () => {
                 <Grid item xs={12} md={4}>
                     <Stack spacing={1}>
                         <InputLabel >
-                            Description (required)
+                            Amount 
                         </InputLabel>
                         <OutlinedInput
-                            type="text"
-                            value={payload.description ? payload.description : ""}
+                            type="number"
+                            value={payload.amount ? payload.amount : ""}
                             onChange={(e) =>
                                 payloadHandler(
                                     payload,
                                     e.target.value,
-                                    "description",
+                                    "amount",
                                     (updateValue) => {
                                         setPayload(updateValue);
                                     }
                                 )
                             }
-                            name="description"
-                            placeholder="Enter Table Description"
+                            name="amount"
+                            placeholder="Enter Bill Amount"
                         />
-                        <ValidationMessage field={"description"} />
+                        <ValidationMessage field={"amount"} />
                     </Stack>
                 </Grid>
 
+
                 <Grid item xs={12} md={4}>
                     <Stack spacing={1}>
-                        <InputLabel > Shop (required) </InputLabel>
+                        <InputLabel > Choose Shop (required) </InputLabel>
                         <Select
-                            value={payload.shop_id ? payload.shop_id : ""}
-                            onChange={(e) =>
-                                payloadHandler(
-                                payload,
-                                e.target.value,
-                                "shop_id",
-                                (updateValue) => {
-                                    setPayload(updateValue);
-                                }
-                                )}
-                            name="shop_id"
-                            >
-                            { shops.map((value, index) => {
-                                return (
-                                <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
-                                )
-                            })}
+                        id="shop_id"
+                        value={payload.shop_id ? payload.shop_id : ""}
+                        onChange={(e) =>
+                            payloadHandler(
+                            payload,
+                            e.target.value,
+                            "shop_id",
+                            (updateValue) => {
+                                setPayload(updateValue);
+                            }
+                            )}
+                        name="shop_id"
+                        >
+                        { shops.map((value, index) => {
+                            return (
+                            <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
+                            )
+                        })}
                         </Select>
                         <ValidationMessage field={"shop_id"} />
                     </Stack>
                 </Grid>
 
-                <Grid item xs={12} md={4}>
-                    <Stack spacing={1}>
-                        <InputLabel > Cashier (required) </InputLabel>
-                        <Select
-                            value={payload.cashier_id ? payload.cashier_id : ""}
-                            onChange={(e) =>
-                                payloadHandler(
-                                payload,
-                                e.target.value,
-                                "cashier_id",
-                                (updateValue) => {
-                                    setPayload(updateValue);
-                                }
-                                )}
-                            name="cashier_id"
-                            >
-                            { cashiers.map((value, index) => {
-                                return (
-                                <MenuItem key={`cashier_id${index}`} value={value.id}> {value.name} </MenuItem>
-                                )
-                            })}
-                        </Select>
-                        <ValidationMessage field={"cashier_id"} />
-                    </Stack>
-                </Grid>
-
-                
 
                 <FormMainAction
                     cancel="Cancle"
-                    cancelClick={() => navigate(paths.table)}
+                    cancelClick={() => navigate(paths.bill)}
                     submit="Update"
-                    submitClick={submitTable}
+                    submitClick={submitBill}
                     loading={loading}
                 />
             </Grid>

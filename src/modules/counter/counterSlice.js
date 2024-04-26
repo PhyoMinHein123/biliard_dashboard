@@ -1,22 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { counterPayload } from "./counterPayload";
 
 const counterSlice = createSlice({
     name: "counter",
     initialState: {
-        votes: [],
-        totaluser: []
+        tables: [],
+        paginateParams: counterPayload.paginateParams,
     },
     reducers: {
-        uservote: (state, action) => {
-            state.votes = action.payload;
+        tables: (state, action) => {
+            state.tables = action.payload;
             return state;
         },
-        totaluser: (state, action) => {
-            state.totaluser = action.payload;
+        setPaginate: (state, action) => {
+            state.paginateParams = action.payload;
             return state;
         },
     },
 });
 
-export const { uservote, totaluser } = counterSlice.actions;
+export const { tables, setPaginate } = counterSlice.actions;
 export default counterSlice.reducer;

@@ -39,6 +39,15 @@ export const paths = {
     user: "/user",
     userCreate: "/user/new",
 
+    package: "/package",
+    packageCreate: "/package/new",
+
+    bill: "/bill",
+    billCreate: "/bill/new",
+
+    payment: "/payment",
+    paymentCreate: "/payment/new",
+
     admin: "/admin",
 
     adminLogout: "/auth/login",

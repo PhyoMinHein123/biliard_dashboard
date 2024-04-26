@@ -18,13 +18,12 @@ import { cashierRoutes } from "./modules/cashier/cashierRoutes";
 import { tableRoutes } from "./modules/table/tableRoutes";
 import { counterRoutes } from "./modules/counter/counterRoute";
 import { adminRoutes } from "./modules/admin/adminRoutes";
+import { packageRoutes } from "./modules/package/packageRoutes";
+import { billRoutes } from "./modules/bill/billRoutes";
+import { paymentRoutes } from "./modules/payment/paymentRoutes";
 
 
 export const routers = createBrowserRouter([
-    {
-        path: "/",
-        element: <Navigate to="/auth/login" replace />,
-    },
     {
         path: "/",
         element: <DefaultLayout />,
@@ -43,7 +42,10 @@ export const routers = createBrowserRouter([
             ...customerRoutes,
             ...cashierRoutes,
             ...tableRoutes,
-            ...adminRoutes
+            ...adminRoutes,
+            ...packageRoutes,
+            ...billRoutes,
+            ...paymentRoutes,
         ],
     },
     {

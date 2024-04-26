@@ -13,35 +13,47 @@ import { getRequest } from '../../../helpers/api';
 import { endpoints } from '../../../constants/endpoints';
 import { userService } from '../../user/userService';
 import { userPayload } from '../../user/userPayload';
+import { getData } from '../../../helpers/localstorage';
+import { keys } from '../../../constants/config';
+import { updateUser } from '../../../shares/shareSlice';
 
 export const AdminUpdate = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(userPayload.update);
   const [shops, setShops] = useState([]);
   const { user } = useSelector(state => state.user);
-  const params = useParams();
+  const [id, setId] = useState(null)
 
+  useEffect(()=>{
+    const data = getData(keys.USER)
+    setId(data.id)
+  },[])
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const submitUser = async () => {
     setLoading(true);
     const formData = formBuilder(payload, userPayload.update);
-    const response = await userService.update(dispatch, params.id, formData);
-    
+    const response = await userService.update(dispatch, id, formData);
+    if(response.status === 200){
+        navigate(paths.admin)
+    }
     setLoading(false);
   }
 
   const loadingData = useCallback(async () => {
-    setLoading(true);
-    await userService.show(dispatch, params.id);
+    if (id !== null) {
+        setLoading(true);
+        await userService.show(dispatch, id);
 
-    const shopResult = await getRequest(`${endpoints.shop}`);
-    if (shopResult.status === 200) {
-      setShops(shopResult.data);
+        const shopResult = await getRequest(`${endpoints.shop}`);
+        if (shopResult.status === 200) {
+        setShops(shopResult.data);
+        }
+        setLoading(false)
     }
-    setLoading(false);
-  }, [dispatch, params.id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     loadingData();

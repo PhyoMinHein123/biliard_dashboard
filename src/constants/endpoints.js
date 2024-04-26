@@ -17,5 +17,8 @@ export const endpoints = {
     customer: "customer",
     cashier: "cashier",
     table: "table",
+    package: "table-package",
+    bill: "bill",
+    payment: "payment",
     image: `${imageURL}`,
 };

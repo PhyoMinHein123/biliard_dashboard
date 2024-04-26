@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import countSlice from "./shares/countSlice";
 import shareSlice from "./shares/shareSlice";
-
 import dashboardSlice from "./modules/dashboard/dashboardSlice";
 import shopSlice from "./modules/shop/shopSlice";
 import userSlice from "./modules/user/userSlice";
@@ -16,6 +15,9 @@ import customerSlice from "./modules/customer/customerSlice";
 import cashierSlice from "./modules/cashier/cashierSlice";
 import tableSlice from "./modules/table/tableSlice";
 import counterSlice from "./modules/counter/counterSlice";
+import packageSlice from "./modules/package/packageSlice";
+import billSlice from "./modules/bill/billSlice";
+import paymentSlice from "./modules/payment/paymentSlice";
 
 export const stores = configureStore({
     reducer: {
@@ -34,7 +36,10 @@ export const stores = configureStore({
         customer: customerSlice,
         cashier: cashierSlice,
         table: tableSlice,
-        counter: counterSlice
+        counter: counterSlice,
+        package: packageSlice,
+        bill: billSlice,
+        payment: paymentSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

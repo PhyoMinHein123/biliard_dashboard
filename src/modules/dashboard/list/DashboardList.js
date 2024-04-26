@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Divider, Grid, Typography } from '@mui/material';
 import { Breadcrumb } from '../../../shares/Breadcrumbs'
 import AnalyticEcommerce from '../../../shares/AnalyticEcommerce';
 import { dashboardService } from '../dashboardService';
@@ -26,7 +26,7 @@ export const DashboardList = () => {
       <Grid container rowSpacing={4.5} columnSpacing={2.75}>
 
         <Grid item xs={12} sx={{ mb: -3.65, mt: 1 }}>
-          <Typography sx={{ fontWeight: 'bold' }} variant="h6">Total Count</Typography>
+          <Typography sx={{ fontWeight: 'bold' }} variant="h5">Total Count</Typography>
         </Grid>
 
         {total_data.map((data,index)=>(
@@ -37,9 +37,13 @@ export const DashboardList = () => {
 
         <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
 
+        <Grid item xs={12} sx={{ mb: -3.65, mt: 1 }}>
+          <Typography sx={{ fontWeight: 'bold' }} variant="h5">Item List</Typography>
+        </Grid>
+
         {chart_data.map((data, index)=>(
           <Grid item xs={12} sm={12} md={12} lg={6} key={index}>
-            <Typography sx={{ fontWeight: 'bold' }} variant="h6">{data.name}</Typography>
+            <Typography variant="h6">{data.name}</Typography>
             <StackBars dataset={data.data}/>
           </Grid> 
         ))} 

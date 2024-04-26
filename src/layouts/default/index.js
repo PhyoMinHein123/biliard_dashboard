@@ -24,16 +24,20 @@ import CloseIcon from '@mui/icons-material/Close';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { paths } from '../../constants/paths';
 import { endpoints } from '../../constants/endpoints';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../shares/shareSlice';
 
 export const DefaultLayout = () => {
 
     const theme = useTheme();
+    const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const profileOpen = Boolean(anchorEl);
     const [open, setOpen] = useState(true);
-    const [user, setUser] = useState();
     const [expandedIndex, setExpandedIndex] = useState(-1);
+
+    const { user } = useSelector((state) => state.share );
 
     const handleClickOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -63,18 +67,20 @@ export const DefaultLayout = () => {
         navigate(paths.adminLogout);
     }
 
-    const getUserData = () => {
-        const data = getData(keys.USER)
-        setUser(data)
-    }
-
     useEffect(() => {
-        getUserData()
+        const data = getData(keys.USER)
+        if (user.length === undefined) {
+            dispatch(updateUser(data));
+        }
     }, [])
 
     useEffect(() => {
         if (!token) {
             navigate('/auth/login');
+        }else if(user?.shop_id === 1){
+            navigate('/dashboard')
+        }else{
+            navigate('/counter')
         }
     }, [token, navigate]);
 

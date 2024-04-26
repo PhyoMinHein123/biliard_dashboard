@@ -7,6 +7,7 @@ import { paths } from '../../../constants/paths';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { payloadHandler } from '../../../helpers/handler';
 import { ValidationMessage } from '../../../shares/ValidationMessage';
+import { updateUser } from '../../../shares/shareSlice';
 
 export const Login = () => {
 
@@ -34,6 +35,7 @@ export const Login = () => {
         setLoading(false);
 
         if (result.status === 200) {
+            dispatch(updateUser(result?.data?.original?.user))
             if(result?.data?.original?.user?.shop_id == 1 ){
                 navigate(paths.dashboard);
             }else{
@@ -111,7 +113,7 @@ export const Login = () => {
                     >
                         <Button
                             variant="contained"
-                            onClick={submitLogin}
+                            onClick={()=>submitLogin()}
                         >Login</Button>
                     </Box>
                 </CardContent>

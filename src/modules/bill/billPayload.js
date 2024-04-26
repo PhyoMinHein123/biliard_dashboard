@@ -1,20 +1,20 @@
-export const itemDataPayload = {
+export const billPayload = {
     update: {
-        item_id: "",
-        shop_id: "",
-        qty: "", 
+        name: "", 
+        amount: "", 
+        shop_id: "", 
     },
     store: {
-        item_id: "",
-        shop_id: "",
-        qty: "", 
+        name: "", 
+        amount: "", 
+        shop_id: "", 
     },
-    columnsName: 'itemDataColumns',
+    columnsName: 'billColumns',
     columns: [
         { id: "id", label: "Id", minWidth: 60 },
+        { id: "name", label: "Name", minWidth: 100 },
+        { id: "amount", label: "Amount", minWidth: 100 },
         { id: "shop_id", label: "Shop", minWidth: 100 },
-        { id: "item_id", label: "Item", minWidth: 100 },
-        { id: "qty", label: "Qty", minWidth: 100 },
 
         { id: "created_by", label: "Created By", minWidth: 100 },
         { id: "updated_by", label: "Updated By", minWidth: 100 },
@@ -26,7 +26,7 @@ export const itemDataPayload = {
     paginateParams: {
         page: 1,
         per_page: 10,
-        columns: "qty",
+        columns: "name,phone,email,address",
         search: "",
         order: "id",
         sort: "ASC",

@@ -1,64 +1,77 @@
-import { useCallback, useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
+import { Button, Grid, Paper, Typography } from '@mui/material';
 import { Breadcrumb } from '../../../shares/Breadcrumbs'
-import AnalyticEcommerce from '../../../shares/AnalyticEcommerce';
 import { counterService } from '../counterService';
 import { useDispatch, useSelector } from 'react-redux';
+import { setPaginate } from '../counterSlice';
+import { getData } from '../../../helpers/localstorage';
+import { keys } from '../../../constants/config';
 
 export const CounterList = () => {
 
-  // const { votes, totaluser } = useSelector((state) => state.counter);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // const loadingData = useCallback(async () => {
-  //   await counterService.uservote(dispatch);
-  //   await counterService.totaluser(dispatch);
+  const [loading, setLoading] = useState(true)
+  const { tables, paginateParams } = useSelector((state) => state.counter);
+  const [shopId, setShopId] = useState(null)
 
-  // }, [dispatch]);
+  const loadingData = useCallback(async () => {
+    if(!loading){
+      const result = await counterService.tables(dispatch, paginateParams);
+      if(result.status === 200){
+        console.log(result.data.data)
+      }
+    }
+  }, [dispatch, loading]);
 
-  // useEffect(() => {
-  //     loadingData();
-  // }, [loadingData]);
+  useEffect(() => {
+      loadingData();
+  }, [loadingData]);
+
+
+  useEffect(()=>{
+    if(shopId !== null){
+      dispatch(
+        setPaginate({
+            ...paginateParams,
+            filter: "shop_id",
+            value: `${shopId}`,
+        }))
+        setLoading(false)
+    }
+  },[shopId])
+
+  useEffect(()=>{
+    const data = getData(keys.USER)
+    setShopId(data.shop_id)
+  },[])
+
 
   return (
     <div>
       <Breadcrumb />
 
-      {/* <Grid container rowSpacing={4.5} columnSpacing={2.75}>
-       
-        <Grid item xs={12} sx={{ mb: -3.65, mt: 1 }}>
-          <Typography sx={{ fontWeight: 'bold' }} variant="h6">Vote Statics</Typography>
+      <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+      <Grid item xs={12}>
+        <Grid container justifyContent="space-around" spacing={3}>
+          {tables.map((value) => (
+            <Grid key={value} item >
+              <Paper
+                sx={{
+                  height: 180,
+                  width: 150,
+                  backgroundColor: () =>
+                    value.status === 'SUCCESS' ? '#00D13B' : '#E00E0E',
+                }}
+              >
+                <Typography variant='h5' >{value.name}</Typography>
+              </Paper>
+            </Grid>
+          ))}
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="Rock Vote" count={votes.Rock} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="R&B Vote" count={votes["R&B"]} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="Pop Vote" count={votes.Pop} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="Rap Vote" count={votes.Rap} />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="Unvote" count={votes.none} />
-        </Grid>
+      </Grid>
+    </Grid>
 
-        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
-
-        <Grid item xs={12} sx={{ mb: -2.25 }}>
-          <Typography sx={{ fontWeight: 'bold' }} variant="h6">Total Statics</Typography>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <AnalyticEcommerce title="Total Page Views" count={totaluser.user} />
-        </Grid>
-        
-        <Grid item md={8} sx={{ display: { sm: 'none', md: 'block', lg: 'none' } }} />
-
- 
-      </Grid> */}
-      
     </div>
   );
 };

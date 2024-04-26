@@ -2,8 +2,10 @@ import { paths } from "../../constants/paths";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import StoreIcon from '@mui/icons-material/Store';
-import PersonIcon from '@mui/icons-material/Person';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import AddIcon from "@mui/icons-material/Add";
+import PaymentsIcon from '@mui/icons-material/Payments';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import CategoryIcon from '@mui/icons-material/Category';
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
@@ -225,6 +227,66 @@ export const items = [
                 label: "Create",
                 icon: <AddIcon />,
                 url: paths.cashierCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Package",
+        data: "Package",
+        icon: <CardGiftcardIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.package,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.packageCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Bill",
+        data: "Bill",
+        icon: <AccountBalanceWalletIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.bill,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.billCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Payment",
+        data: "Payment",
+        icon: <PaymentsIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.payment,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.paymentCreate,
             },
         ],
     },
