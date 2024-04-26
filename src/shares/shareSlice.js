@@ -7,6 +7,7 @@ const shareSlice = createSlice({
     errors: null,
     showSidebar: false,
     showAlert: false,
+    showAlertCounter: false,
     statusFilter: "ALL",
     startFilterDate: null,
     endFilterDate: null,
@@ -39,6 +40,10 @@ const shareSlice = createSlice({
       state.showAlert = !state.showAlert
       return state
     },
+    alertCounterToggle: (state) => {
+      state.showAlertCounter = !state.showAlertCounter
+      return state
+    },
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
       return state
@@ -65,6 +70,7 @@ export const {
   updateError,
   sidebarToggle,
   alertToggle,
+  alertCounterToggle,
   setSelectedId,
   setStatusFilter,
   setDateFilter,

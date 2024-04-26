@@ -6,20 +6,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPaginate } from '../counterSlice';
 import { getData } from '../../../helpers/localstorage';
 import { keys } from '../../../constants/config';
+import AlertCounter from '../../../shares/AlertCounter';
+import { alertCounterToggle } from '../../../shares/shareSlice';
 
 export const CounterList = () => {
 
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true)
+  const [packageData, setPackageData] = useState([])
   const { tables, paginateParams } = useSelector((state) => state.counter);
   const [shopId, setShopId] = useState(null)
 
   const loadingData = useCallback(async () => {
     if(!loading){
-      const result = await counterService.tables(dispatch, paginateParams);
+      await counterService.tables(dispatch, paginateParams);
+      
+      const result = await counterService.package(dispatch);
       if(result.status === 200){
-        console.log(result.data.data)
+        setPackageData(result.data)
       }
     }
   }, [dispatch, loading]);
@@ -62,13 +67,18 @@ export const CounterList = () => {
                   width: 150,
                   backgroundColor: () =>
                     value.status === 'SUCCESS' ? '#00D13B' : '#E00E0E',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }}
+                onClick={()=>dispatch(alertCounterToggle())}
               >
                 <Typography variant='h5' >{value.name}</Typography>
               </Paper>
             </Grid>
           ))}
         </Grid>
+        <AlertCounter packageData={packageData}/>
       </Grid>
     </Grid>
 

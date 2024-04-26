@@ -75,14 +75,16 @@ export const DefaultLayout = () => {
     }, [])
 
     useEffect(() => {
+        const data = getData(keys.USER)
         if (!token) {
             navigate('/auth/login');
-        }else if(user?.shop_id === 1){
-            navigate('/dashboard')
-        }else{
-            navigate('/counter')
         }
-    }, [token, navigate]);
+        // else if(user?.shop_id === 1){
+        //     navigate('/dashboard')
+        // }else{
+        //     navigate('/counter')
+        // }
+    }, [token, user]);
 
     return (
         <>
