@@ -6,11 +6,16 @@ const counterSlice = createSlice({
     initialState: {
         tables: [],
         table: null,
+        category: [],
         paginateParams: counterPayload.paginateParams,
     },
     reducers: {
         tables: (state, action) => {
             state.tables = action.payload;
+            return state;
+        },
+        category: (state, action) => {
+            state.category = action.payload;
             return state;
         },
         setPaginate: (state, action) => {
@@ -24,5 +29,5 @@ const counterSlice = createSlice({
     },
 });
 
-export const { tables, setPaginate, update } = counterSlice.actions;
+export const { tables, setPaginate, category, update } = counterSlice.actions;
 export default counterSlice.reducer;

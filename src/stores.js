@@ -18,6 +18,7 @@ import counterSlice from "./modules/counter/counterSlice";
 import packageSlice from "./modules/package/packageSlice";
 import billSlice from "./modules/bill/billSlice";
 import paymentSlice from "./modules/payment/paymentSlice";
+import roleSlice from "./modules/role/roleSlice";
 
 export const stores = configureStore({
     reducer: {
@@ -40,6 +41,7 @@ export const stores = configureStore({
         package: packageSlice,
         bill: billSlice,
         payment: paymentSlice,
+        role: roleSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

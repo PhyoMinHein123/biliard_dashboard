@@ -18,6 +18,7 @@ export const UserUpdate = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(userPayload.update);
   const [shops, setShops] = useState([]);
+  const [newPassword, setNewPassword] = useState([]);
   const { user } = useSelector(state => state.user);
   const params = useParams();
 
@@ -28,6 +29,15 @@ export const UserUpdate = () => {
     setLoading(true);
     const formData = formBuilder(payload, userPayload.update);
     const response = await userService.update(dispatch, params.id, formData);
+    if(response.status === 200){
+      navigate(paths.user);
+    }
+    setLoading(false);
+  }
+
+  const submitChange = async () => {
+    setLoading(true);    
+    const response = await userService.changepassword(dispatch, params.id, {"password": newPassword});
     if(response.status === 200){
       navigate(paths.user);
     }
@@ -262,6 +272,38 @@ export const UserUpdate = () => {
                     submitClick={submitUser}
                     loading={loading}
                 />
+            </Grid>
+        </Paper>
+
+        <div className="col-12">
+          Change Password
+        </div>
+
+        <Paper elevation={3} style={{ padding: 20, margin: 10 }}>
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel >
+                            Password (required)
+                        </InputLabel>
+                        <OutlinedInput
+                            type="password"
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            name="password"
+                            placeholder="Enter User Password"
+                        />
+                        <ValidationMessage field={"password"} />
+                    </Stack>
+                </Grid>
+
+                <FormMainAction
+                    cancel="Cancle"
+                    cancelClick={() => navigate(paths.user)}
+                    submit="Submit"
+                    submitClick={submitChange}
+                    loading={loading}
+                />
+
             </Grid>
         </Paper>
       </div>

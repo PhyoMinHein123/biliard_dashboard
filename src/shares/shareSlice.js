@@ -12,7 +12,10 @@ const shareSlice = createSlice({
     startFilterDate: null,
     endFilterDate: null,
     selectedId: 0,
-    user: {}
+    user: {},
+    role: "",
+    man: {},
+    permissions: [],
   },
   reducers: {
     updateNotification: (state, action) => {
@@ -60,6 +63,18 @@ const shareSlice = createSlice({
     updateUser: (state,action) => {
       state.user = action.payload;
       return state;
+    },
+    updateMan: (state,action) => {
+      state.man = action.payload;
+      return state;
+    },
+    updateRole: (state,action) => {
+      state.role = action.payload;
+      return state;
+    },
+    updatePermission: (state,action) => {
+      state.permissions = action.payload;
+      return state;
     }
   },
 });
@@ -74,6 +89,9 @@ export const {
   setSelectedId,
   setStatusFilter,
   setDateFilter,
-  updateUser
+  updateUser,
+  updateRole,
+  updatePermission,
+  updateMan,
 } = shareSlice.actions;
 export default shareSlice.reducer;

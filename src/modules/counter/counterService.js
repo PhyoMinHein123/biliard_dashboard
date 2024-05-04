@@ -1,8 +1,8 @@
 import { endpoints } from "../../constants/endpoints";
-import { getRequest } from "../../helpers/api";
+import { getRequest, postRequest } from "../../helpers/api";
 import { httpServiceHandler } from "../../helpers/handler";
 import { updateNotification } from "../../shares/shareSlice";
-import { tables, update } from "./counterSlice";
+import { category, tables, update } from "./counterSlice";
 
 export const counterService = {
     tables: async (dispatch, params) => {
@@ -19,13 +19,30 @@ export const counterService = {
             );
         }
         return response;
-    },
-    package: async (dispatch, params) => {
-        const response = await getRequest(endpoints.package, params);
+    },  
+    index: async (dispatch, params) => {
+        const response = await getRequest(endpoints.category, params);
         await httpServiceHandler(dispatch, response);
 
+        if (response.status === 200) {
+            dispatch(
+                category(response.data.data ? response.data.data : response.data)
+            );            
+        }
         return response;
-    },
+    },          
+    checkin: async (payload, dispatch) => {
+        const response = await postRequest(endpoints.order, payload);
+        await httpServiceHandler(dispatch, response);
+
+        if (response.status === 200) {
+            dispatch(updateNotification({
+                variant : 'success',
+                  message : response.message
+            }))
+        }
+        return response;
+    },                                  
     show: async (dispatch, id) => {
         const response = await getRequest(`${endpoints.table}/${id}`);
         await httpServiceHandler(dispatch, response);

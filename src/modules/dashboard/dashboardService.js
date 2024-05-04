@@ -1,6 +1,8 @@
+import { toast } from "react-toastify";
 import { endpoints } from "../../constants/endpoints";
 import { getRequest } from "../../helpers/api";
 import { httpServiceHandler } from "../../helpers/handler";
+import { playNotificationSound } from "../../shares/playNotificationSound";
 import { updateNotification } from "../../shares/shareSlice";
 import { chartdata, totaldata } from "./dashboardSlice";
 
@@ -18,6 +20,8 @@ export const dashboardService = {
                     message: response.message,
                 })
             );
+            toast.success(response.message);
+            playNotificationSound();
         }
         return response;
     },

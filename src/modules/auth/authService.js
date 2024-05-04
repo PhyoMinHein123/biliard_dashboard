@@ -4,7 +4,7 @@ import { endpoints } from "../../constants/endpoints";
 import { postRequest } from "../../helpers/api"
 import { httpServiceHandler } from "../../helpers/handler";
 import { setData } from "../../helpers/localstorage";
-import { updateNotification, updateUser } from "../../shares/shareSlice";
+import { updateMan, updateNotification, updateRole, updateUser } from "../../shares/shareSlice";
 
 export const authService = {
     login: async (payload, dispatch) => {
@@ -13,12 +13,15 @@ export const authService = {
         await httpServiceHandler(dispatch, response);
 
         if(response.status === 200) {
-            setData(keys.API_TOKEN, response.data.original.access_token);
-            setData(keys.USER, response.data.original.user);
-            // setData(keys.ROLE,response.data.user.rnp.role);
-            // setData(keys.PERMISSION,response.data.user.rnp.permissions);
+           
+            setData(keys.API_TOKEN, response.data.token);
+            setData(keys.USER, response.data.user);
+
+            setData(keys.ROLE,response.data.role);
+            setData(keys.PERMISSION,response.data.permissions?.map(item => item.id));
             
-            dispatch(updateUser(response.data.original.user));
+            dispatch(updateMan(response.data.user));
+            dispatch(updateRole(response.data.role));
             dispatch(updateNotification({
                 variant : 'success',
                   message : response.message

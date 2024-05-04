@@ -1,22 +1,17 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import Switch from '@mui/material/Switch';
+import { 
+    Box, Stack, Button,
+    Dialog, DialogActions, DialogContent,
+    DialogContentText, DialogTitle, FormControl,
+    FormControlLabel, InputLabel, MenuItem,
+    Select, Switch, OutlinedInput
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { alertCounterToggle } from './shareSlice';
 import { Grid } from '@mui/material';
+import { ValidationMessage } from './ValidationMessage';
 
-export default function AlertCounter({packageData}) {
+export default function AlertCounter({submitOrder}) {
 
     const { showAlertCounter } = useSelector(state => state.share)
     const dispatch = useDispatch();
@@ -76,8 +71,8 @@ export default function AlertCounter({packageData}) {
                                     marginX: 7
                                 }}
                             >
-                                <Button variant="contained" onClick={handleClickOpen}>
-                                    To Start Normally
+                                <Button variant="contained" onClick={()=>submitOrder()}>
+                                    To Start Normal
                                 </Button>
                             </Grid>
                             <Grid 
@@ -88,26 +83,35 @@ export default function AlertCounter({packageData}) {
                                     mb: 2
                                 }}
                             >
-                                <FormControl sx={{ minWidth: 120, mr: 1 }}>
-                                    <InputLabel htmlFor="max-width">Package</InputLabel>
-                                    <Select
-                                        autoFocus
-                                        value={maxWidth}
-                                        onChange={handleMaxWidthChange}
-                                        label="Package"
-                                        inputProps={{
-                                            name: 'max-width',
-                                            id: 'max-width',
-                                        }}
-                                    >
-                                        {packageData.map((data) => (
-                                            <MenuItem key={data.id} value={data.name}>{data.name}</MenuItem>
-                                        ))}
-                                        
-                                    </Select>
-                                </FormControl>
+                                                                
+                            <Stack spacing={1}>
+                                <InputLabel >
+                                    Hours (required)
+                                </InputLabel>
+                                <OutlinedInput
+                                    type="text"
+                                    // onChange={(e) => {
+                                    //   const timeValue = e.target.value;
+                                    //   const [hours, minutes] = timeValue.split(":");
+                                    //   if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
+                                    //     payloadHandler(
+                                    //       payload,
+                                    //       timeValue,
+                                    //       "hour",
+                                    //       (updateValue) => {
+                                    //         setPayload(updateValue);
+                                    //       }
+                                    //     );
+                                    //   }
+                                    // }}
+                                    name="hour"
+                                    placeholder="Enter Time (hh:mm)"
+                                />
+                                <ValidationMessage field={"hour"} />
+                            </Stack>                        
+
                                 <Button sx={{ mt: 1 }} variant="contained" onClick={handleClickOpen}>
-                                    Start With The Package
+                                    Start With Hours
                                 </Button>
                             </Grid>
                         </Grid>

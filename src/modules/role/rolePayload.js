@@ -1,29 +1,20 @@
-export const tablePayload = {
+export const rolePayload = {
     update: {
-        name: "",
+        name: "", 
         description: "",
-        amount: "",
-        shop_id: "",
-        cashier_id: "",
-        status: "", 
+        permissions: ""
     },
     store: {
-        name: "",
+        name: "", 
         description: "",
-        amount: "",
-        shop_id: "",
-        cashier_id: "",
-        status: "", 
+        permissions: ""
     },
-    columnsName: 'tableColumns',
+    columnsName: 'roleColumns',
     columns: [
         { id: "id", label: "Id", minWidth: 60 },
         { id: "name", label: "Name", minWidth: 100 },
-        { id: "description", label: "Description", minWidth: 100 },
-        { id: "amount", label: "Amount", minWidth: 80 },
-        { id: "shop_id", label: "Shop", minWidth: 100 },
-        { id: "cashier_id", label: "Cashier", minWidth: 100 },
-        { id: "status", label: "Status", minWidth: 100 },
+        { id: "description", label: "Description", minWidth: 150 },
+        { id: "permissions_count", label: "Permission", minWidth: 100 },
 
         { id: "created_by", label: "Created By", minWidth: 100 },
         { id: "updated_by", label: "Updated By", minWidth: 100 },

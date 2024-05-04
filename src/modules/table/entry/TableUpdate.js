@@ -122,6 +122,31 @@ export const TableUpdate = () => {
 
                 <Grid item xs={12} md={4}>
                     <Stack spacing={1}>
+                        <InputLabel >
+                            Amount For 30min (required)
+                        </InputLabel>
+                        <OutlinedInput
+                            type="number"
+                            value={payload.amount ? payload.amount : ""}
+                            onChange={(e) =>
+                                payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "amount",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                )
+                            }
+                            name="amount"
+                            placeholder="Enter Table Amount"
+                        />
+                        <ValidationMessage field={"amount"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
                         <InputLabel > Shop (required) </InputLabel>
                         <Select
                             value={payload.shop_id ? payload.shop_id : ""}
@@ -137,9 +162,11 @@ export const TableUpdate = () => {
                             name="shop_id"
                             >
                             { shops.map((value, index) => {
-                                return (
-                                <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
-                                )
+                                if(!value.is_warehouse){
+                                    return (
+                                    <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
+                                    )
+                                }
                             })}
                         </Select>
                         <ValidationMessage field={"shop_id"} />

@@ -1,10 +1,8 @@
 export const counterPayload = {
-    update: {
-        name: "",
-        description: "",
+    checkin: {        
+        table_number_id: "",
+        status: "PENDING",
         shop_id: "",
-        cashier_id: "",
-        status: "", 
     },
     store: {
         name: "",

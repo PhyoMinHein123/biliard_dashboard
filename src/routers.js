@@ -21,6 +21,7 @@ import { adminRoutes } from "./modules/admin/adminRoutes";
 import { packageRoutes } from "./modules/package/packageRoutes";
 import { billRoutes } from "./modules/bill/billRoutes";
 import { paymentRoutes } from "./modules/payment/paymentRoutes";
+import { roleRoutes } from "./modules/role/roleRoutes";
 
 
 export const routers = createBrowserRouter([
@@ -46,6 +47,7 @@ export const routers = createBrowserRouter([
             ...packageRoutes,
             ...billRoutes,
             ...paymentRoutes,
+            ...roleRoutes,
         ],
     },
     {

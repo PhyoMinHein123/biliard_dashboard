@@ -20,5 +20,10 @@ export const endpoints = {
     package: "table-package",
     bill: "bill",
     payment: "payment",
+    role: "role",
+    permission: "permission",
+    changepassword: "change-password",
+    profile: "profile",
+    order: "order",
     image: `${imageURL}`,
 };

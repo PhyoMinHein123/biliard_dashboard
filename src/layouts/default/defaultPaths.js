@@ -17,6 +17,7 @@ import Diversity2Icon from '@mui/icons-material/Diversity2';
 import Diversity1Icon from '@mui/icons-material/Diversity1';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 export const items = [
     {
@@ -232,26 +233,6 @@ export const items = [
     },
     {
         key: "1",
-        label: "Package",
-        data: "Package",
-        icon: <CardGiftcardIcon />,
-        children: [
-            {
-                key: "1-1",
-                label: "List",
-                icon: <FormatListBulletedIcon />,
-                url: paths.package,
-            },
-            {
-                key: "1-2",
-                label: "Create",
-                icon: <AddIcon />,
-                url: paths.packageCreate,
-            },
-        ],
-    },
-    {
-        key: "1",
         label: "Bill",
         data: "Bill",
         icon: <AccountBalanceWalletIcon />,
@@ -287,6 +268,26 @@ export const items = [
                 label: "Create",
                 icon: <AddIcon />,
                 url: paths.paymentCreate,
+            },
+        ],
+    },
+    {
+        key: "2",
+        label: "Role",
+        data: "Role",
+        icon: <VpnKeyIcon />,
+        children: [
+            {
+                key: "2-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.role,
+            },
+            {
+                key: "2-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.roleCreate,
             },
         ],
     },

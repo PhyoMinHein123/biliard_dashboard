@@ -102,7 +102,7 @@ export const ShopCreate = () => {
                                             }
                                         )
                                     }
-                                    name="name"
+                                    name="address"
                                     placeholder="Enter Shop Address"
                                 />
                                 <ValidationMessage field={"address"} />

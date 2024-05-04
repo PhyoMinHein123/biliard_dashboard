@@ -42,11 +42,10 @@ export const ShopUpdate = () => {
 
   useEffect(() => {
     if (shop) {
-      const updatePayload = { ...shop }
-      updatePayload.file_path = null;
+      const updatePayload = { ...shop }    
       setPayload(updatePayload);
     }
-  }, [shop])
+  }, [shop])  
 
   return (
     <>

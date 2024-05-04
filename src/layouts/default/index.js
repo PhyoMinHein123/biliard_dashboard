@@ -25,7 +25,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { paths } from '../../constants/paths';
 import { endpoints } from '../../constants/endpoints';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../../shares/shareSlice';
+import { updateMan, updateUser } from '../../shares/shareSlice';
+import { getRequest } from '../../helpers/api';
 
 export const DefaultLayout = () => {
 
@@ -34,10 +35,12 @@ export const DefaultLayout = () => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const profileOpen = Boolean(anchorEl);
+
+    const [time, setTime] = useState(new Date());
     const [open, setOpen] = useState(true);
     const [expandedIndex, setExpandedIndex] = useState(-1);
 
-    const { user } = useSelector((state) => state.share );
+    const { user, man, role, permission } = useSelector((state) => state.share );
 
     const handleClickOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -67,12 +70,36 @@ export const DefaultLayout = () => {
         navigate(paths.adminLogout);
     }
 
-    useEffect(() => {
-        const data = getData(keys.USER)
-        if (user.length === undefined) {
-            dispatch(updateUser(data));
+    const getUserData = async () => {
+        const result = await getRequest(`${endpoints.profile}`);
+        if (result.status === 200) {
+            dispatch(updateMan(result.data.user))
         }
-    }, [])
+    }
+
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+          setTime(new Date());
+        }, 1000);
+    
+        return () => {
+          clearInterval(intervalID);
+        };
+
+      }, []);
+    
+      const formattedTime = time.toLocaleTimeString();
+
+    useEffect(() => {
+        if(Object.keys(man).length === 0){
+            getUserData()            
+        }
+    
+        // const data = getData(keys.USER)
+        // // if (user.length === undefined) {
+        // //     dispatch(updateUser(data));
+        // // }
+    }, )
 
     useEffect(() => {
         const data = getData(keys.USER)
@@ -84,7 +111,7 @@ export const DefaultLayout = () => {
         // }else{
         //     navigate('/counter')
         // }
-    }, [token, user]);
+    }, [token]);
 
     return (
         <>
@@ -103,12 +130,12 @@ export const DefaultLayout = () => {
                                 {open ? (<CloseIcon />) : (<MenuIcon />)}
                             </IconButton>
                             <Typography variant="h6" noWrap component="div">
-                                Biliard
+                                {formattedTime}
                             </Typography>
 
                             <Tooltip title="Account settings">
                                 <Typography variant="h6" sx={{ display: "inline" }}>
-                                    {user?.name}
+                                    {man?.name}
                                 </Typography>
                                 <IconButton
                                     size="small"
@@ -117,7 +144,7 @@ export const DefaultLayout = () => {
                                     aria-haspopup="true"
                                     aria-expanded={profileOpen ? 'true' : undefined}
                                 >
-                                    <Avatar sx={{ width: 32, height: 32 }} src={user?.image ? `${endpoints.image}${user.image}` : null} />
+                                    <Avatar sx={{ width: 32, height: 32 }} src={man?.image ? `${endpoints.image}${man.image}` : null} />
                                 </IconButton>
                                 <IconButton
                                     id="basic-button"
@@ -171,7 +198,7 @@ export const DefaultLayout = () => {
                         </DrawerHeader>
                         <Divider />
                             <List sx={{overflow: 'scroll', overflowX: 'hidden'}}>
-                                {user?.shop_id == 1 ? 
+                                {man?.shop_id == 1 ? 
                                 (items.map((nav, index) => (
                                     <div key={index}>
                                         <ListItemButton onClick={() => {
@@ -265,7 +292,7 @@ export const DefaultLayout = () => {
                                         <AccountCircleIcon />
                                     </ListItemIcon>
                                     <ListItemText>
-                                        {user?.name}
+                                        {man?.name}
                                     </ListItemText>
                                 </ListItemButton>
                                 <ListItemButton onClick={logout}>

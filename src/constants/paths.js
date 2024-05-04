@@ -48,6 +48,9 @@ export const paths = {
     payment: "/payment",
     paymentCreate: "/payment/new",
 
+    role: "/role",
+    roleCreate: "/role/new",
+
     admin: "/admin",
 
     adminLogout: "/auth/login",

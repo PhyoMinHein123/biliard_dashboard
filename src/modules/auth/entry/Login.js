@@ -36,7 +36,7 @@ export const Login = () => {
 
         if (result.status === 200) {
             dispatch(updateUser(result?.data?.original?.user))
-            if(result?.data?.original?.user?.shop_id == 1 ){
+            if(result?.data?.user?.shop_id == 1 ){
                 navigate(paths.dashboard);
             }else{
                 navigate(paths.counter);

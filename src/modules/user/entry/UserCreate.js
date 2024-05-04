@@ -22,7 +22,7 @@ export const UserCreate = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const submitGenre = async () => {
+    const submitUser = async () => {
         setLoading(true);
         const formData = formBuilder(payload, userPayload.store);
         const create = await userService.store(formData, dispatch);
@@ -244,7 +244,7 @@ export const UserCreate = () => {
                             cancel="Cancle"
                             cancelClick={() => navigate(paths.user)}
                             submit="Create"
-                            submitClick={submitGenre}
+                            submitClick={submitUser}
                             loading={loading}
                         />
                     </Grid>
