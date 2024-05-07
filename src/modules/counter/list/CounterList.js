@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPaginate } from '../counterSlice';
 import { getData } from '../../../helpers/localstorage';
 import { keys } from '../../../constants/config';
-import AlertCounter from '../../../shares/AlertCounter';
+import AlertCounter from '../component/AlertCounter';
 import { alertCounterToggle } from '../../../shares/shareSlice';
 import SkeletonCounter from '../../../shares/SkeletonCounter';
 import { counterPayload } from '../counterPayload';
@@ -45,7 +45,7 @@ export const CounterList = () => {
     }
     const create = await counterService.checkin(payload, dispatch);
     if(create.status == 200){
-        navigate(paths.counter);
+        navigate(`${paths.counter}/${selectTable}`);
     }
     setLoading(false);
   };
@@ -95,9 +95,13 @@ export const CounterList = () => {
                       alignItems: 'center',
                       justifyContent: 'center'
                   }}
-                  onClick={()=>{
-                    dispatch(alertCounterToggle());
-                    setSelectTable(value.id);
+                  onClick={() => {
+                    if (value.status === 'SUCCESS') {
+                      dispatch(alertCounterToggle());
+                      setSelectTable(value.id);
+                    } else {
+                      navigate(`${paths.counter}/${value.id}`);
+                    }
                   }}
                 >
                   <Typography variant='h5' >{value.name}</Typography>

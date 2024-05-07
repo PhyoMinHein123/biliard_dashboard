@@ -37,9 +37,10 @@ export const CounterTable = () => {
 
   const loadingData = useCallback(async () => {
     setLoading(true);
-    await counterService.show(dispatch, params.id);
-    await counterService.index(dispatch, paginateParams);
-
+    const r = await counterService.show(dispatch, params.id);
+    console.log(r)
+    const r2 =await counterService.index(dispatch, paginateParams);
+    console.log(r2)
     setLoading(false);
   }, [dispatch, params.id]);
 

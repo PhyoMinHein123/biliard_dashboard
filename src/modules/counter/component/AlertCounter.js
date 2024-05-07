@@ -7,9 +7,9 @@ import {
     Select, Switch, OutlinedInput
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { alertCounterToggle } from './shareSlice';
+import { alertCounterToggle } from '../../../shares/shareSlice';
 import { Grid } from '@mui/material';
-import { ValidationMessage } from './ValidationMessage';
+import { ValidationMessage } from '../../../shares/ValidationMessage';
 
 export default function AlertCounter({submitOrder}) {
 

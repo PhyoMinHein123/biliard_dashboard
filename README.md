@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+gui & cli
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+windows search bar -> cmd
+windows icons + r  -> cmd
+folder url -> cmd
 
-In the project directory, you can run:
+path
+os folder structure
 
-### `npm start`
+dir 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+cd Desktop  (change directory)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+cd .. 
 
-### `npm test`
+mkdir newfolder (make directory)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+rmdir newfolder (remove directory)
 
-### `npm run build`
+echo > filename.txt
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+del filename.txt
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+shutdown /s /f /t -0
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+shutdown /r /f /t -0
 
-### `npm run eject`
+------------------------
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+odoo(15,16,17)
+(python , javascript)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+python 3.7
+github odoo , 15
+postgres db (gui , db) , 14.11
 
-## Learn More
+venv
+requirement.txt
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+laravel 11
 
-### Code Splitting
+xampp php(8.2)
+composer 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+developer mode (off)
+php version
+    wmapp 5.
+    xampp php (8.0, 8.1, 8.2)
 
-### Analyzing the Bundle Size
+mysql, sqlite3
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+git & github
+django
 
-### Making a Progressive Web App
+email 
+nav bar
+socket
+language
+multi image
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
+python --version (3.7)
+python -m venv odoo_venv
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+odoo_venv\Scripts\activte
+(odoo_venv)
 
-### Deployment
+cd odoo_15
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+python -m pip install -r requirements.txt
 
-### `npm run build` fails to minify
+python -m pip list
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
