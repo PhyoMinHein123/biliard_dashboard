@@ -4,6 +4,9 @@ export const counterPayload = {
         status: "PENDING",
         shop_id: "",
     },
+    createorder: {
+        items: ""
+    },
     store: {
         name: "",
         description: "",
@@ -33,4 +36,7 @@ export const counterPayload = {
         filter: "shop_id",
         value: ""
     },
+    categoryParams: {
+        shop_id : 0
+    }
 };

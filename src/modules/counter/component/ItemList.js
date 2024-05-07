@@ -1,10 +1,20 @@
 import { Grid, Skeleton, Button, Paper, Tooltip, Typography } from '@mui/material';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
-import React from 'react';
+import React, { useState } from 'react';
 import { endpoints } from '../../../constants/endpoints';
+import ProductModal from './ProductModal';
+import { CounterItemToggle } from '../../../shares/shareSlice';
+import { useDispatch } from 'react-redux';
+import Default from '../../../assets/image/default-image.png'
 
-function ItemList({ data, loading }) {
+function ItemList({ data, loading, setItem, createOrder }) {
+
+  const [selectedItem, setSelectedItem] = useState({})
+
+  const dispatch = useDispatch();
+
   return (
+    <>
     <Grid container spacing={2} sx={{ marginLeft: '1px' }}>
       {loading ? (
         <Skeleton variant="rectangular" width={210} height={118} />
@@ -13,7 +23,7 @@ function ItemList({ data, loading }) {
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Paper style={{ textAlign: 'center', padding: '8px' }}>
               <img 
-                src={item.image ? `${endpoints.image}${item.image}` : 'placeholder.jpg'}
+                src={item.image ? `${endpoints.image}${item.image}` : Default}
                 alt={item.name}
                 style={{ height: 100, width: 100, objectFit: 'cover', borderRadius: '50%', margin: 'auto' }}
               />
@@ -26,10 +36,14 @@ function ItemList({ data, loading }) {
                   </Tooltip>
                 </Grid>
                 <Grid item xs={12}>
-                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{`$${item.price}`}</Typography>
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{`${item.price}mmk`}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Button
+                    onClick={()=>{
+                      setSelectedItem(item)
+                      dispatch(CounterItemToggle());
+                    }}
                     variant="contained"
                     color="primary"
                     fullWidth
@@ -52,6 +66,8 @@ function ItemList({ data, loading }) {
         ))
       )}
     </Grid>
+    <ProductModal item={selectedItem} setItem={(e)=>{setItem(e)}} createOrder={createOrder}/>
+    </>
   );
 }
 
