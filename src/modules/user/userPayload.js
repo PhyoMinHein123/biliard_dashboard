@@ -7,6 +7,7 @@ export const userPayload = {
         address: "",
         status: "",
         shop_id: "", 
+        role_names: ""
     },
     store: {
         name: "", 
@@ -16,7 +17,8 @@ export const userPayload = {
         address: "",
         status: "",
         shop_id: "", 
-        password: ""
+        password: "",
+        role_names: ""
     },
     columnsName: 'userColumns',
     columns: [
@@ -27,6 +29,7 @@ export const userPayload = {
         { id: "email", label: "Email", minWidth: 120 },
         { id: "address", label: "Address", minWidth: 150 },
         { id: "shop_id", label: "Shop", minWidth: 100 },
+        { id: "role_names", label: "Role", minWidth: 100},
         { id: "status", label: "Status", minWidth: 100 },
 
         { id: "created_by", label: "Created By", minWidth: 100 },

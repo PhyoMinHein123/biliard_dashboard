@@ -18,6 +18,7 @@ export const UserCreate = () => {
     const [loading, setLoading] = useState(false);
     const [payload, setPayload] = useState(userPayload.store);
     const [shops, setShops] = useState([]);
+    const [roles, setRoles] = useState([]);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -37,6 +38,10 @@ export const UserCreate = () => {
         const shopResult = await getRequest(`${endpoints.shop}`);
         if (shopResult.status === 200) {
           setShops(shopResult.data);
+        }
+        const roleResult = await getRequest(`${endpoints.role}`);
+        if (roleResult.status === 200) {
+            setRoles(roleResult.data);
         }
         setLoading(false);
     }, []);
@@ -190,6 +195,33 @@ export const UserCreate = () => {
                                 })}
                                 </Select>
                                 <ValidationMessage field={"shop_id"} />
+                            </Stack>
+                        </Grid>
+
+                        <Grid item xs={12} md={4}>
+                            <Stack spacing={1}>
+                                <InputLabel > Choose Role </InputLabel>
+                                <Select
+                                id="role_names"
+                                value={payload.role_names ? payload.role_names : ""}
+                                onChange={(e) =>
+                                    payloadHandler(
+                                    payload,
+                                    e.target.value,
+                                    "role_names",
+                                    (updateValue) => {
+                                        setPayload(updateValue);
+                                    }
+                                    )}
+                                name="role_names"
+                                >
+                                { roles.map((value, index) => {
+                                    return (
+                                    <MenuItem key={`role_names${index}`} value={value.id}> {value.name} </MenuItem>
+                                    )
+                                })}
+                                </Select>
+                                <ValidationMessage field={"role_names"} />
                             </Stack>
                         </Grid>
 

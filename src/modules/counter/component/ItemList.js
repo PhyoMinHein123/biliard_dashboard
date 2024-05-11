@@ -7,7 +7,7 @@ import { CounterItemToggle } from '../../../shares/shareSlice';
 import { useDispatch } from 'react-redux';
 import Default from '../../../assets/image/default-image.png'
 
-function ItemList({ data, loading, setItem, createOrder }) {
+function ItemList({ data, loading, setItem }) {
 
   const [selectedItem, setSelectedItem] = useState({})
 
@@ -19,7 +19,7 @@ function ItemList({ data, loading, setItem, createOrder }) {
       {loading ? (
         <Skeleton variant="rectangular" width={210} height={118} />
       ) : (
-        data.map((item, index) => (
+        data.filter(item => item.item_data && item.item_data.qty !== 0 && item.status === 'ACTIVE').map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Paper style={{ textAlign: 'center', padding: '8px' }}>
               <img 
@@ -34,6 +34,9 @@ function ItemList({ data, loading, setItem, createOrder }) {
                       {item.name.length > 7 ? `${item.name.slice(0, 7)}...` : item.name}
                     </Typography>
                   </Tooltip>
+                    <Typography variant="subtitle2" gutterBottom>
+                      {item.item_data?.qty}
+                    </Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="body1" sx={{ fontWeight: 'bold' }}>{`${item.price}mmk`}</Typography>
@@ -66,7 +69,7 @@ function ItemList({ data, loading, setItem, createOrder }) {
         ))
       )}
     </Grid>
-    <ProductModal item={selectedItem} setItem={(e)=>{setItem(e)}} createOrder={createOrder}/>
+    <ProductModal item={selectedItem} setItem={(e)=>{setItem(e)}}/>
     </>
   );
 }

@@ -51,6 +51,7 @@ export default function ProductModal({ item, setItem, createOrder }) {
 
   useEffect(() => {
     setCount(1);
+    console.log(item)
   }, [item]);
 
   useEffect(() => {

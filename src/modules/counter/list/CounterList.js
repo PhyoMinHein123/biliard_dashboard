@@ -28,7 +28,7 @@ export const CounterList = () => {
   const loadingData = useCallback(async () => {
     if(!loading){
       await counterService.tables(dispatch, paginateParams);
-      
+
       // const result = await counterService.package(dispatch);
       // if(result.status === 200){
       //   setPackageData(result.data)
@@ -68,11 +68,10 @@ export const CounterList = () => {
   },[shopId])
 
   useEffect(()=>{    
-    if(Object.keys(man).length !== 0){
+    if(Object.keys(man)?.length !== 0){
       setShopId(man.shop_id)
     }
   },[man])
-
 
   return (
     <div>
@@ -82,7 +81,7 @@ export const CounterList = () => {
       <Grid item xs={12}>
         <Grid container justifyContent="space-around" spacing={3}>
           {loading ? (<SkeletonCounter/>) : (
-          tables.length > 0 ? (
+          tables?.length > 0 ? (
             tables.map((value) => (
               <Grid key={value} item >
                 <Paper

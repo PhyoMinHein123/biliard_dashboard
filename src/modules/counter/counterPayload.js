@@ -24,15 +24,6 @@ export const counterPayload = {
         { id: "status", label: "Status", minWidth: 100 },
     ],
     paginateParams: {
-        page: 1,
-        per_page: 10,
-        columns: "name,description",
-        search: "",
-        order: "id",
-        sort: "ASC",
-        value: "",
-        start_date: "",
-        end_date: "",
         filter: "shop_id",
         value: ""
     },
