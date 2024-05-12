@@ -145,9 +145,11 @@ export const CashierCreate = () => {
                                 name="shop_id"
                                 >
                                 { shops.map((value, index) => {
-                                    return (
-                                    <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
-                                    )
+                                    if(!value.is_warehouse){
+                                        return (
+                                            <MenuItem key={`shop_id${index}`} value={value.id}> {value.name} </MenuItem>
+                                        )
+                                    }                                
                                 })}
                                 </Select>
                                 <ValidationMessage field={"shop_id"} />

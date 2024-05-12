@@ -217,7 +217,7 @@ export const UserCreate = () => {
                                 >
                                 { roles.map((value, index) => {
                                     return (
-                                    <MenuItem key={`role_names${index}`} value={value.id}> {value.name} </MenuItem>
+                                    <MenuItem key={`role_names${index}`} value={value.name}> {value.name} </MenuItem>
                                     )
                                 })}
                                 </Select>

@@ -73,6 +73,11 @@ export const CounterList = () => {
     }
   },[man])
 
+  const formatTime12Hour = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  };
+
   return (
     <div>
       <Breadcrumb />
@@ -88,6 +93,10 @@ export const CounterList = () => {
                   sx={{
                     height: 150,
                     width: 180,
+                    display: 'flex',
+                    flexDirection: 'column', // Added to stack the children vertically
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     backgroundColor: () =>
                       value.status === 'SUCCESS' ? '#00D13B' : '#E00E0E',
                       display: 'flex',
@@ -103,6 +112,9 @@ export const CounterList = () => {
                     }
                   }}
                 >
+                  {value.status !== 'SUCCESS' && value.order && (
+                    <Typography variant='h6' align="center">{formatTime12Hour(value.order.checkin)}</Typography>
+                  )}
                   <Typography variant='h5' >{value.name}</Typography>
                 </Paper>
               </Grid>

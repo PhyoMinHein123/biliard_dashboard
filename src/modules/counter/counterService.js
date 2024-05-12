@@ -1,8 +1,8 @@
 import { endpoints } from "../../constants/endpoints";
-import { getRequest, postRequest } from "../../helpers/api";
+import { delRequest, getRequest, postRequest } from "../../helpers/api";
 import { httpServiceHandler } from "../../helpers/handler";
 import { updateNotification } from "../../shares/shareSlice";
-import { category, items, tables, update, updateorder } from "./counterSlice";
+import { category, order, tables, update, updateorder } from "./counterSlice";
 
 export const counterService = {
     tables: async (dispatch, params) => {
@@ -43,12 +43,23 @@ export const counterService = {
         }
         return response;
     },  
-    createorder: async (dispatch, id, payload) => {
+    createinvoice: async ( payload, dispatch) => {
+        const response = await postRequest(endpoints.invoice, payload);
+        await httpServiceHandler(dispatch, response);
+       
+        if (response.status === 200) {
+            dispatch(updateNotification({
+                variant : 'success',
+                  message : response.message
+            }))
+        }
+        return response;
+    },
+    deleteinvoice: async ( payload, id, dispatch) => {
         const response = await postRequest(`${endpoints.order}/${id}`, payload);
         await httpServiceHandler(dispatch, response);
        
         if (response.status === 200) {
-            dispatch(items(response?.data?.items));
             dispatch(updateNotification({
                 variant : 'success',
                   message : response.message
@@ -61,7 +72,7 @@ export const counterService = {
         await httpServiceHandler(dispatch, response);
 
         if(response.status === 200) {
-            dispatch(updateorder(response.data));
+            dispatch(order(response.data));
         }
         
         return response;

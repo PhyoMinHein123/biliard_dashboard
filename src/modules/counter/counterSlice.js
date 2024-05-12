@@ -7,7 +7,6 @@ const counterSlice = createSlice({
         tables: [],
         table: null,
         order: null,
-        items: [],
         category: [],
         paginateParams: counterPayload.paginateParams,
         categoryParams: counterPayload.categoryParams
@@ -17,12 +16,12 @@ const counterSlice = createSlice({
             state.tables = action.payload;
             return state;
         },
-        items: (state, action) => {
-            state.items = action.payload;
-            return state;
-        },
         category: (state, action) => {
             state.category = action.payload;
+            return state;
+        },
+        order: (state, action) => {
+            state.order = action.payload;
             return state;
         },
         setPaginate: (state, action) => {
@@ -44,5 +43,5 @@ const counterSlice = createSlice({
     },
 });
 
-export const { tables, setPaginate, category, update, items, updateorder } = counterSlice.actions;
+export const { tables, setPaginate, category, update, updateorder, order } = counterSlice.actions;
 export default counterSlice.reducer;

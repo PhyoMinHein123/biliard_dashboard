@@ -19,10 +19,10 @@ const style = {
   p: 4,
 };
 
-export default function ProductModal({ item, setItem, createOrder }) {
+export default function ProductModal({ item, setItem }) {
   const [count, setCount] = useState(1);
-  const [itemData, setItemData] = useState({})
-  const { showCounterItem } = useSelector(state => state.share);
+  const { showCounterItem, man } = useSelector(state => state.share);
+  const { table } = useSelector(state => state.counter);
   const dispatch = useDispatch();
 
   const alertToggleClick = () => {
@@ -30,12 +30,34 @@ export default function ProductModal({ item, setItem, createOrder }) {
   };
 
   const orderCreate = async () => {
-    setItem(itemData)
-    setTimeout(()=>{
-      createOrder()
-      alertToggleClick()
-    },100)
+    const payload = {
+      order_id: table?.order_id,
+      item_id: item?.id,
+      price: item?.price,
+      qty: count,
+      total: item?.price * count,
+      shop_id: man?.shop_id
+    }
+    const create = await counterService.createinvoice(payload, dispatch);
+    if(create.status == 200){
+        console.log(create)
+    }
+    alertToggleClick()
   }
+
+  // const submitOrder = async () => {
+  //   setLoading(true);
+  //   const payload = { 
+  //     table_number_id: selectTable,
+  //     status: "PENDING", 
+  //     shop_id: shopId
+  //   }
+  //   const create = await counterService.checkin(payload, dispatch);
+  //   if(create.status == 200){
+  //       navigate(`${paths.counter}/${selectTable}`);
+  //   }
+  //   setLoading(false);
+  // };
 
   const handleIncrement = () => {
     if (count < (item.item_data?.qty || 1)) {
@@ -51,17 +73,7 @@ export default function ProductModal({ item, setItem, createOrder }) {
 
   useEffect(() => {
     setCount(1);
-    console.log(item)
   }, [item]);
-
-  useEffect(() => {
-    setItemData({
-      name: item?.name,
-      price: item?.price,
-      qty: count,
-      total: item?.price * count
-    })
-  }, [count])
 
   return (
     <div>

@@ -7,7 +7,7 @@ import { CounterItemToggle } from '../../../shares/shareSlice';
 import { useDispatch } from 'react-redux';
 import Default from '../../../assets/image/default-image.png'
 
-function ItemList({ data, loading, setItem }) {
+function ItemList({ data, loading }) {
 
   const [selectedItem, setSelectedItem] = useState({})
 
@@ -69,7 +69,7 @@ function ItemList({ data, loading, setItem }) {
         ))
       )}
     </Grid>
-    <ProductModal item={selectedItem} setItem={(e)=>{setItem(e)}}/>
+    <ProductModal item={selectedItem} />
     </>
   );
 }

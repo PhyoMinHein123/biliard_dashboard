@@ -25,6 +25,9 @@ import { getData, setData } from "../../../helpers/localstorage";
 import ReloadData from "../../../shares/ReloadData";
 import AlertDialog from "../../../shares/AlertDialog";
 import EmptyData from "../../../shares/EmptyData";
+import { FilterByForign } from "../../../shares/FilterByForign";
+import { endpoints } from "../../../constants/endpoints";
+import { getRequest } from "../../../helpers/api";
 
 export const TableList = () => {
     const { tables, paginateParams } = useSelector((state) => state.table);
@@ -39,6 +42,7 @@ export const TableList = () => {
     const [columns, setColumns] = useState(getData(tablePayload.columnsName) == null ? tablePayload.columns : getData(tablePayload.columnsName));
 
     const tableStatus = useRef(['ALL','ACTIVE','INACTIVE']);
+    const tableShopStatus = useRef(['ALL','ACTIVE','INACTIVE']);
 
     const onPageChange = (event, newPage) => {
         dispatch(
@@ -94,6 +98,20 @@ export const TableList = () => {
           updatePaginateParams.value = "";
         } else {
           updatePaginateParams.filter = "status";
+          updatePaginateParams.value = e?.target?.value;
+        }
+        dispatch(setPaginate(updatePaginateParams));
+    };
+
+    const onFilterShop = (e) => {
+        console.log(e);
+        let updatePaginateParams = { ...paginateParams };
+    
+        if (e?.target?.value === "ALL") {
+          updatePaginateParams.filter = "";
+          updatePaginateParams.value = "";
+        } else {
+          updatePaginateParams.filter = "shop_id";
           updatePaginateParams.value = e?.target?.value;
         }
         dispatch(setPaginate(updatePaginateParams));
@@ -172,6 +190,11 @@ export const TableList = () => {
         if(getData(tablePayload.columnsName) == null){
             setData(tablePayload.columnsName, tablePayload.columns)
         }
+        const shopResult = await getRequest(`${endpoints.shop}`);
+        if (shopResult.status === 200) {
+            tableShopStatus.current = shopResult.data.filter(item => item.is_warehouse !== true);
+            tableShopStatus.current.unshift({ id: '', name: 'ALL' })
+        }
     }, [dispatch, paginateParams]);
 
     useEffect(() => {
@@ -208,7 +231,11 @@ export const TableList = () => {
                                                     <FilterByStatus paginateParams={paginateParams} status={tableStatus} onFilter={onFilter} />
                                                 </Grid>
 
-                                                <Grid table xs={8}>
+                                                <Grid itemData xs={2}> 
+                                                    <FilterByForign paginateParams={paginateParams} status={tableShopStatus} onFilter={onFilterShop} />
+                                                </Grid>
+
+                                                <Grid table xs={6}>
                                                     <FilterByDate onFilter={onFilterByDate} />
                                                 </Grid>
 

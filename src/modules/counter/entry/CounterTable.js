@@ -16,7 +16,6 @@ export const CounterTable = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(counterPayload.update);
   const [shopId, setShopId] = useState(null)
-  const [item, setItem] = useState([])
   const [value, setValue] = useState(0);
 
   const { man } = useSelector((state) => state.share );
@@ -30,10 +29,6 @@ export const CounterTable = () => {
     setValue(newValue);
   };
 
-  const addedItem = (e) => {
-    setItem([...item, e])
-  }
-
   const loadingData = useCallback(async () => {
     setLoading(true);    
     await counterService.index(dispatch, categoryParams);
@@ -42,7 +37,7 @@ export const CounterTable = () => {
       const request = await counterService.orderlist(dispatch, result?.data?.order_id)
     }
     setLoading(false);
-  }, [dispatch, params.id]);
+  }, [dispatch, params.id, order]);
 
   useEffect(() => {
     loadingData();
@@ -78,7 +73,7 @@ export const CounterTable = () => {
                   <ScrollTab value={value} category={category.filter(item => item.status && item.status === 'ACTIVE')} handleChange={handleChange} />
                   {category.filter(item => item.status && item.status === 'ACTIVE').map((data, index) => (
                       <CustomTabPanel key={index} value={value} index={index}>
-                        <ItemList data={data?.items} loading={loading} setItem={(e) => addedItem(e)} />
+                        <ItemList data={data?.items} loading={loading} />
                       </CustomTabPanel>
                     ))
                   }
@@ -86,7 +81,7 @@ export const CounterTable = () => {
                 </Grid>
                 <Grid item xs={12} md={12} lg={6}>
                     <Paper elevation={3} style={{ margin: 6 }}>
-                        <CartList items={item}/>
+                        <CartList />
                     </Paper>
                 </Grid>
             </Grid>

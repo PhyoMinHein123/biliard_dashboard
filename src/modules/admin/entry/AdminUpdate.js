@@ -21,21 +21,18 @@ export const AdminUpdate = () => {
   const [loading, setLoading] = useState(false);
   const [payload, setPayload] = useState(userPayload.update);
   const [shops, setShops] = useState([]);
+  const [roles, setRoles] = useState([]);
   const { user } = useSelector(state => state.user);
+  const { man } = useSelector(state => state.share)
   const [id, setId] = useState(null)
 
-  useEffect(()=>{
-    const data = getData(keys.USER)
-    setId(data.id)
-  },[])
-  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const submitUser = async () => {
     setLoading(true);
     const formData = formBuilder(payload, userPayload.update);
-    const response = await userService.update(dispatch, id, formData);
+    const response = await userService.update(dispatch, man?.id, formData);
     if(response.status === 200){
         navigate(paths.admin)
     }
@@ -43,17 +40,19 @@ export const AdminUpdate = () => {
   }
 
   const loadingData = useCallback(async () => {
-    if (id !== null) {
         setLoading(true);
-        await userService.show(dispatch, id);
+        await userService.show(dispatch, man?.id);
 
         const shopResult = await getRequest(`${endpoints.shop}`);
         if (shopResult.status === 200) {
         setShops(shopResult.data);
         }
+        const roleResult = await getRequest(`${endpoints.role}`);
+        if (roleResult.status === 200) {
+            setRoles(roleResult.data);
+        }
         setLoading(false)
-    }
-  }, [dispatch, id]);
+  }, [dispatch, man]);
 
   useEffect(() => {
     loadingData();
@@ -214,6 +213,33 @@ export const AdminUpdate = () => {
                         })}
                         </Select>
                         <ValidationMessage field={"shop_id"} />
+                    </Stack>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                    <Stack spacing={1}>
+                        <InputLabel > Choose Role </InputLabel>
+                        <Select
+                        id="role_names"
+                        value={payload.role_names ? payload.role_names : ""}
+                        onChange={(e) =>
+                            payloadHandler(
+                            payload,
+                            e.target.value,
+                            "role_names",
+                            (updateValue) => {
+                                setPayload(updateValue);
+                            }
+                            )}
+                        name="role_names"
+                        >
+                        { roles.map((value, index) => {
+                            return (
+                            <MenuItem key={`role_names${index}`} value={value.name}> {value.name} </MenuItem>
+                            )
+                        })}
+                        </Select>
+                        <ValidationMessage field={"role_names"} />
                     </Stack>
                 </Grid>
 

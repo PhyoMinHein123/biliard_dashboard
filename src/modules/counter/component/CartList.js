@@ -6,20 +6,29 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useDispatch, useSelector } from 'react-redux';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton } from '@mui/material';
+import { counterService } from '../counterService';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+export default function CartList() {
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  const { order } = useSelector(state => state.counter);
+  const { man } = useSelector(state => state.share);
 
-export default function CartList({items}) {
+  // const dispatch = useDispatch()
+
+  // const deleteInvoice = async (item_id, id) => {
+  //   const payload = {
+  //     item_id: item_id,
+  //     shop_id: man?.shop_id
+  //   }
+  //   const create = await counterService.deleteinvoice(payload, id , dispatch);
+  //   if(create.status == 200){
+  //       console.log(create)
+  //   }
+  // }
+
   return (
     <TableContainer >
       <Table sx={{ minWidth: 500 }} aria-label="simple table">
@@ -32,13 +41,17 @@ export default function CartList({items}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((row) => (
+          {order?.invoices.map((row) => (
             <TableRow key={row.name} >                
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="left">{row.price}</TableCell>             
-              <TableCell align="left">{row.qty}</TableCell>              
-              <TableCell align="left">{row.total}</TableCell>
-              <TableCell align="left">D</TableCell>             
+              <TableCell align="left">{row?.item?.name}</TableCell>
+              <TableCell align="left">{row?.item?.price}</TableCell>             
+              <TableCell align="left">{row?.qty}</TableCell>              
+              <TableCell align="left">{row?.total}</TableCell>
+              <TableCell align="left" style={{ padding: 0 }} >
+                <IconButton onClick={()=>deleteInvoice(row?.item?.id, row?.id)}>
+                  <DeleteIcon style={{ color: 'red' }}/>
+                </IconButton>
+                </TableCell>             
             </TableRow>
           ))}
         </TableBody>
