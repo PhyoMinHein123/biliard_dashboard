@@ -56,7 +56,7 @@ export const counterService = {
         return response;
     },
     deleteinvoice: async ( payload, id, dispatch) => {
-        const response = await postRequest(`${endpoints.order}/${id}`, payload);
+        const response = await delRequest(`${endpoints.invoice}/${id}`, payload);
         await httpServiceHandler(dispatch, response);
        
         if (response.status === 200) {

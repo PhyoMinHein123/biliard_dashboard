@@ -1,4 +1,4 @@
-import { Grid, InputLabel, OutlinedInput, Stack, Paper, MenuItem, Select } from '@mui/material';
+import { Grid, InputLabel, OutlinedInput, Stack, Paper, MenuItem, Select, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,7 @@ export const CounterTable = () => {
       const request = await counterService.orderlist(dispatch, result?.data?.order_id)
     }
     setLoading(false);
-  }, [dispatch, params.id, order]);
+  }, [dispatch, params.id]);
 
   useEffect(() => {
     loadingData();
@@ -67,22 +67,21 @@ export const CounterTable = () => {
           <Breadcrumb />
         </div>
 
+            <Typography variant='h6'>{table?.name}</Typography>
             <Grid container direction="row" spacing={3}>
                 <Grid item xs={12} md={12} lg={6}>
                 <Paper elevation={3} style={{ margin: 6 }}>
                   <ScrollTab value={value} category={category.filter(item => item.status && item.status === 'ACTIVE')} handleChange={handleChange} />
                   {category.filter(item => item.status && item.status === 'ACTIVE').map((data, index) => (
                       <CustomTabPanel key={index} value={value} index={index}>
-                        <ItemList data={data?.items} loading={loading} />
+                        <ItemList data={data?.items} loading={loading} loadingData={()=>loadingData()}/>
                       </CustomTabPanel>
                     ))
                   }
                 </Paper>
                 </Grid>
                 <Grid item xs={12} md={12} lg={6}>
-                    <Paper elevation={3} style={{ margin: 6 }}>
-                        <CartList />
-                    </Paper>
+                  <CartList loadingData={()=>loadingData()}/>
                 </Grid>
             </Grid>
         

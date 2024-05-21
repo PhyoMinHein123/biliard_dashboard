@@ -113,9 +113,9 @@ export const CounterList = () => {
                   }}
                 >
                   {value.status !== 'SUCCESS' && value.order && (
-                    <Typography variant='h6' align="center">{formatTime12Hour(value.order.checkin)}</Typography>
+                    <Typography variant='h6' align="center" sx={{ color: 'white' }} >{formatTime12Hour(value.order.checkin)}</Typography>
                   )}
-                  <Typography variant='h5' >{value.name}</Typography>
+                  <Typography variant='h5' sx={{ color: 'white' }}>{value.name}</Typography>
                 </Paper>
               </Grid>
             ))

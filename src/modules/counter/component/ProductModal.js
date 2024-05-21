@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function ProductModal({ item, setItem }) {
+export default function ProductModal({ item, setItem, loadingData }) {
   const [count, setCount] = useState(1);
   const { showCounterItem, man } = useSelector(state => state.share);
   const { table } = useSelector(state => state.counter);
@@ -42,6 +42,7 @@ export default function ProductModal({ item, setItem }) {
     if(create.status == 200){
         console.log(create)
     }
+    loadingData()
     alertToggleClick()
   }
 

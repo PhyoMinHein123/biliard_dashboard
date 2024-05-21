@@ -9,6 +9,7 @@ const shareSlice = createSlice({
     showAlert: false,
     showAlertCounter: false,
     showCounterItem: false,
+    showCheckout: false,
     statusFilter: "ALL",
     startFilterDate: null,
     endFilterDate: null,
@@ -52,6 +53,10 @@ const shareSlice = createSlice({
       state.showCounterItem = !state.showCounterItem
       return state
     },
+    CheckoutToggle: (state) => {
+      state.showCheckout = !state.showCheckout
+      return state
+    },
     setSelectedId: (state, action) => {
       state.selectedId = action.payload;
       return state
@@ -92,6 +97,7 @@ export const {
   alertToggle,
   alertCounterToggle,
   CounterItemToggle,
+  CheckoutToggle,
   setSelectedId,
   setStatusFilter,
   setDateFilter,
