@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import { Breadcrumb } from '../../../shares/Breadcrumbs'
 import { counterService } from '../counterService';
@@ -12,6 +12,7 @@ import SkeletonCounter from '../../../shares/SkeletonCounter';
 import { counterPayload } from '../counterPayload';
 import { paths } from '../../../constants/paths';
 import { useNavigate } from 'react-router-dom';
+import wavFile from '../../../assets/sound/2.wav'
 
 export const CounterList = () => {
 
@@ -24,6 +25,13 @@ export const CounterList = () => {
   const { man } = useSelector((state) => state.share );
   const [shopId, setShopId] = useState(null)
   const [selectTable, setSelectTable] = useState(null)
+  const [color, setColor] = useState('#E00E0E');
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const audioRef = useRef(null);
+
+  audioRef.current = new Audio(wavFile);
+  audioRef.current.loop = true;
 
   const loadingData = useCallback(async () => {
     if(!loading){
@@ -38,10 +46,27 @@ export const CounterList = () => {
 
   const submitOrder = async () => {
     setLoading(true);
+    dispatch(alertCounterToggle());
     const payload = { 
       table_number_id: selectTable,
       status: "PENDING", 
       shop_id: shopId
+    }
+    const create = await counterService.checkin(payload, dispatch);
+    if(create.status == 200){
+        navigate(`${paths.counter}/${selectTable}`);
+    }
+    setLoading(false);
+  };
+
+  const submitOrder2 = async (e) => {
+    setLoading(true);
+    dispatch(alertCounterToggle());
+    const payload = { 
+      table_number_id: selectTable,
+      status: "PENDING", 
+      shop_id: shopId,
+      endtime: e
     }
     const create = await counterService.checkin(payload, dispatch);
     if(create.status == 200){
@@ -73,6 +98,44 @@ export const CounterList = () => {
     }
   },[man])
 
+  useEffect(() => {
+    setTimeout(()=>{
+      if(color === '#E00E0E'){
+        setColor(`#0000e6`);
+      }else{
+        setColor(`#E00E0E`);
+      }
+    }, 1000);
+  },[color]);
+
+  useEffect(() => {
+    setTimeout(()=>{
+      const shouldPlay = tables?.some((value) => {
+        return value?.order?.checkout && new Date() > new Date(value?.order?.checkout);
+      });
+      setIsPlaying(shouldPlay);
+      if(shouldPlay){
+          audioRef.current.play().catch((error) => {
+            console.error('Error playing audio:', error);
+          });
+      }else{
+        audioRef.current.pause()
+      }
+      console.log('should play', shouldPlay)
+    },1000)
+  });
+  
+  // useEffect(() => {
+  //   console.log('is playing', isPlaying)
+  //   if (isPlaying) {
+  //     audioRef.current.play().catch((error) => {
+  //       console.error('Error playing audio:', error);
+  //     });
+  //   } else {
+  //     audioRef.current.pause();
+  //   }
+  // }, [isPlaying]);
+
   const formatTime12Hour = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -98,7 +161,13 @@ export const CounterList = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                     backgroundColor: () =>
-                      value.status === 'SUCCESS' ? '#00D13B' : '#E00E0E',
+                      value.status === 'SUCCESS'
+                      ? '#00D13B'
+                      : !value?.order?.checkout
+                      ? '#E00E0E'
+                      : new Date(value.order.checkout) < new Date()
+                      ? color
+                      : '#E00E0E',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
@@ -113,9 +182,12 @@ export const CounterList = () => {
                   }}
                 >
                   {value.status !== 'SUCCESS' && value.order && (
-                    <Typography variant='h6' align="center" sx={{ color: 'white' }} >{formatTime12Hour(value.order.checkin)}</Typography>
+                    <Typography variant='h6' align="center" sx={{ color: 'white' }} >{formatTime12Hour(value?.order?.checkin)}</Typography>
                   )}
                   <Typography variant='h5' sx={{ color: 'white' }}>{value.name}</Typography>
+                  {value.status !== 'SUCCESS' && value.order && value.order.checkout && (
+                    <Typography variant='h6' align="center" sx={{ color: 'white' }} >{formatTime12Hour(value?.order?.checkout)}</Typography>
+                  )}
                 </Paper>
               </Grid>
             ))
@@ -133,7 +205,7 @@ export const CounterList = () => {
             </Paper>
           ))}          
         </Grid>
-        <AlertCounter submitOrder={()=>submitOrder()}/>
+        <AlertCounter submitOrder={()=>submitOrder()} submitOrder2={(e)=>submitOrder2(e)}/>
       </Grid>
     </Grid>
 

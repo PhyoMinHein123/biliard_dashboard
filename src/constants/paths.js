@@ -48,6 +48,9 @@ export const paths = {
     payment: "/payment",
     paymentCreate: "/payment/new",
 
+    order: "/invoice",
+    orderCreate: "/invoice/new",
+
     role: "/role",
     roleCreate: "/role/new",
 

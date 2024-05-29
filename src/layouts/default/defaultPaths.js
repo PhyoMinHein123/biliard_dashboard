@@ -173,26 +173,6 @@ export const items = [
     },
     {
         key: "1",
-        label: "Shop",
-        data: "Shop",
-        icon: <StoreIcon />,
-        children: [
-            {
-                key: "1-1",
-                label: "List",
-                icon: <FormatListBulletedIcon />,
-                url: paths.shop,
-            },
-            {
-                key: "1-2",
-                label: "Create",
-                icon: <AddIcon />,
-                url: paths.shopCreate,
-            },
-        ],
-    },
-    {
-        key: "1",
         label: "Customer",
         data: "Customer",
         icon: <GroupsIcon />,
@@ -209,6 +189,26 @@ export const items = [
                 icon: <AddIcon />,
                 url: paths.customerCreate,
             },
+        ],
+    },
+    {
+        key: "1",
+        label: "Invoice",
+        data: "Invoice",
+        icon: <StoreIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.order,
+            },
+            // {
+            //     key: "1-2",
+            //     label: "Create",
+            //     icon: <AddIcon />,
+            //     url: paths.orderCreate,
+            // },
         ],
     },
     {
@@ -308,6 +308,26 @@ export const items = [
                 label: "Create",
                 icon: <AddIcon />,
                 url: paths.userCreate,
+            },
+        ],
+    },
+    {
+        key: "1",
+        label: "Shop",
+        data: "Shop",
+        icon: <StoreIcon />,
+        children: [
+            {
+                key: "1-1",
+                label: "List",
+                icon: <FormatListBulletedIcon />,
+                url: paths.shop,
+            },
+            {
+                key: "1-2",
+                label: "Create",
+                icon: <AddIcon />,
+                url: paths.shopCreate,
             },
         ],
     },

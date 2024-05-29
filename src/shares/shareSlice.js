@@ -12,6 +12,7 @@ const shareSlice = createSlice({
     showCheckout: false,
     statusFilter: "ALL",
     startFilterDate: null,
+    startAudio: false,
     endFilterDate: null,
     selectedId: 0,
     user: {},
@@ -43,6 +44,10 @@ const shareSlice = createSlice({
     },
     alertToggle: (state) => {
       state.showAlert = !state.showAlert
+      return state
+    },
+    audioToggle: (state) => {
+      state.startAudio = !state.startAudio
       return state
     },
     alertCounterToggle: (state) => {
@@ -102,6 +107,7 @@ export const {
   setStatusFilter,
   setDateFilter,
   updateUser,
+  audioToggle,
   updateRole,
   updatePermission,
   updateMan,

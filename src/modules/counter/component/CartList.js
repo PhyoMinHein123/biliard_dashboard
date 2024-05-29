@@ -18,6 +18,7 @@ export default function CartList({loadingData}) {
 
   const { order, table } = useSelector(state => state.counter);
   const { man } = useSelector(state => state.share);
+  const [loading, setLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date());
   const dispatch = useDispatch()
   
@@ -40,13 +41,21 @@ export default function CartList({loadingData}) {
   });
 
   const checkoutDate = order?.checkout ? new Date(order?.checkout) : currentTime;
+  const formattedCheckoutDate = order?.checkout ? new Date(order?.checkout).toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  }) : currentTime;
   const diffTime = Math.abs(checkoutDate - checkinDate);
   const totalMinutes = Math.ceil(diffTime / (1000 * 60));
   const totalTime = `${Math.floor(totalMinutes / 60).toString().padStart(2, '0')}:${(totalMinutes % 60).toString().padStart(2, '0')}:${Math.floor((diffTime / 1000) % 60).toString().padStart(2, '0')}`;
 
   const chargePerHalfHour = table?.amount || 0;
   const totalCharge = Math.ceil(totalMinutes / 30) * chargePerHalfHour;
-  const formattedTotalCharge = totalCharge?.toLocaleString();
 
   const totalQty = order?.invoices.reduce((acc, cur) => acc + cur.qty, 0);
   const itemTotal = order?.invoices.reduce((acc, cur) => acc + cur.total, 0);
@@ -85,9 +94,9 @@ export default function CartList({loadingData}) {
             <TableBody>
                 <TableRow>                
                   <TableCell align="left">{formattedCheckinDate}</TableCell>             
-                  <TableCell align="left">{order?.checkout ? order?.checkout : currentTime.toLocaleString()}</TableCell>
+                  <TableCell align="left">{order?.checkout ? formattedCheckoutDate : currentTime.toLocaleString()}</TableCell>
                   <TableCell align="left">{totalTime}</TableCell>
-                  <TableCell align="left">{order?.table_charge ? order?.table_charge : formattedTotalCharge}</TableCell>
+                  <TableCell align="left">{order?.table_charge ? order?.table_charge : totalCharge?.toLocaleString()}</TableCell>
                 </TableRow>
             </TableBody>
           </Table>
@@ -107,7 +116,7 @@ export default function CartList({loadingData}) {
             </TableHead>
             <TableBody>
               {order?.invoices.map((row) => (
-                <TableRow key={row.name} >                
+                <TableRow key={row?.item?.id} >                
                   <TableCell align="left">{row?.item?.name}</TableCell>
                   <TableCell align="left">{row?.item?.price}</TableCell>             
                   <TableCell align="left">{row?.qty}</TableCell>              
@@ -124,7 +133,7 @@ export default function CartList({loadingData}) {
                   <TableCell align="left" >{totalQty}</TableCell>
                   <TableCell align="left" >{formattedItemTotal}</TableCell>                          
                 </TableRow>
-                <TableRow >                
+                <TableRow >
                   <TableCell align="left" colSpan={3}>Total</TableCell>
                   <TableCell align="left" >{formattedGrandTotal}</TableCell>                          
                 </TableRow>
@@ -133,11 +142,11 @@ export default function CartList({loadingData}) {
         </TableContainer>
       </Paper>
       <Box display="flex" justifyContent="flex-end" sx={{ p:1 }}>
-        <Button variant="contained" onClick={()=>checkoutOrder()} endIcon={<ShoppingCartCheckoutIcon />}>
+        <Button variant="contained" disabled={currentTime < checkoutDate} onClick={()=>checkoutOrder()} endIcon={<ShoppingCartCheckoutIcon />}>
           Checkout
         </Button>
       </Box>
-      <CheckoutModal totalQty={totalQty} itemTotal={itemTotal} total={grandTotal}/>
+      <CheckoutModal totalQty={totalQty} itemTotal={itemTotal} total={grandTotal} totaltime={totalTime} endtime={currentTime} totalCharge={totalCharge}/>
     </Box>
   );
 }

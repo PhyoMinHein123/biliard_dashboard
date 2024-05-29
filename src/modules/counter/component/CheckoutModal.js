@@ -18,6 +18,8 @@ import { CheckoutToggle } from '../../../shares/shareSlice';
 import { getRequest } from '../../../helpers/api';
 import { ValidationMessage } from '../../../shares/ValidationMessage';
 import CircularProgress from '@mui/material/CircularProgress';
+import { counterService } from '../counterService';
+import { paths } from '../../../constants/paths';
 
 
 const style = {
@@ -33,12 +35,14 @@ const style = {
   p: 4,
 };
 
-export default function CheckoutModal({ totalQty, itemTotal, total }) {
+export default function CheckoutModal({ totalQty, itemTotal, total, totaltime, endtime, totalCharge }) {
 
     const [ charge, setCharge ] = useState(0)
     const [ refund, setRefund ] = useState(0)
     const [ customers, setCustomers ] = useState([])
     const [ payments, setPayments ] = useState([])
+    const [ customer, setCustomer ] = useState()
+    const [ payment, setPayment ] = useState()
     const [ loading, setLoading ] = useState(false)
     const [ isSubmitting, setIsSubmitting ] = useState(false)
 
@@ -61,9 +65,28 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
         setLoading(false);
     }, []);
 
+    const Checkout = async () => {
+        setLoading(true)
+        const payload = {
+          table_number_id: order?.table_number_id,
+          customer_id: customer,
+          payment_id: payment,
+          table_charge: totalCharge,
+          items_charge: itemTotal,
+          total_time: totaltime,
+          charge: total,
+          refund: refund,
+          checkout: endtime
+        }
+        const checkout = await counterService.checkout(payload, order?.id , dispatch);
+        if(checkout.status == 200){
+            navigate(paths.counter)
+        }
+    }
+
     useEffect(() => {
         setRefund(charge - total)
-    }, [charge])
+    }, [charge, total])
     
     useEffect(() => {
         loadingData();
@@ -89,9 +112,10 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
                         <Select
                             id="customer"
                             name="customer"
+                            value={customer}
                         >
                             {customers.map((e)=>(
-                                <MenuItem value={e.id}>{e.name}</MenuItem>
+                                <MenuItem onChange={()=>{setCustomer(e.id)}} value={e.id}>{e.name}</MenuItem>
                             ))}
                         </Select>  
                     </Stack>
@@ -102,9 +126,10 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
                         <Select
                             id="payment"
                             name="payment"
+                            value={payment}
                         >
                             {payments.map((e)=>(
-                                <MenuItem value={e.id}>{e.name}</MenuItem>
+                                <MenuItem onChange={()=>{setPayment(e.id)}} value={e.id}>{e.name}</MenuItem>
                             ))}
                         </Select>  
                         <ValidationMessage field={"payment"} />
@@ -144,7 +169,7 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={4}>Total</TableCell>
-                            <TableCell align="right" sx={{ fontSize: '20px' }}>{total}</TableCell>
+                            <TableCell align="right" sx={{ fontSize: '20px' }}>{total.toLocaleString()}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={4}>Charge</TableCell>
@@ -154,7 +179,7 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
                         </TableRow>
                         <TableRow>
                             <TableCell colSpan={4}>Refund</TableCell>
-                            <TableCell align="right" sx={{ color: refund < 0 ? 'red':'black', fontSize: '20px' }}>{refund}</TableCell>
+                            <TableCell align="right" sx={{ color: refund < 0 ? 'red':'black', fontSize: '20px' }}>{refund.toLocaleString()}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -167,7 +192,7 @@ export default function CheckoutModal({ totalQty, itemTotal, total }) {
                         variant="contained"
                         color="primary"
                         sx={{ mr: '100px' }}
-                        // onClick={()=>{createInvoice(false)}}
+                        onClick={()=>{Checkout()}}
                         endIcon={ loading ? <CircularProgress size={18} /> : <TableRestaurantIcon />}
                         // loading={isOrder}
                         loadingPosition="end"

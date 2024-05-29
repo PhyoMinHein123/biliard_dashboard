@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { getData, removeAllData } from '../../helpers/localstorage';
 import { AppBar, DrawerHeader, keys, Drawer } from '../../constants/config';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Collapse, Divider, IconButton, List, Toolbar, Typography } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -27,8 +27,13 @@ import { endpoints } from '../../constants/endpoints';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMan, updateUser } from '../../shares/shareSlice';
 import { getRequest } from '../../helpers/api';
+import wavFile from '../../assets/sound/3.wav'
 
 export const DefaultLayout = () => {
+
+    const audioRef = useRef(null);
+    audioRef.current = new Audio(wavFile);
+    audioRef.current.loop = true;
 
     const theme = useTheme();
     const dispatch = useDispatch();
@@ -40,7 +45,7 @@ export const DefaultLayout = () => {
     const [open, setOpen] = useState(true);
     const [expandedIndex, setExpandedIndex] = useState(-1);
 
-    const { user, man, role, permission } = useSelector((state) => state.share );
+    const { user, man, role, permission, startAudio } = useSelector((state) => state.share );
 
     const handleClickOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -112,6 +117,16 @@ export const DefaultLayout = () => {
         //     navigate('/counter')
         // }
     }, [token]);
+
+    useEffect(()=>{
+        if (startAudio) {
+            audioRef.current.play().catch((error) => {
+              console.error('Error playing audio:', error);
+            });
+          } else {
+            audioRef.current.pause();
+          }
+    },[startAudio])
 
     return (
         <>

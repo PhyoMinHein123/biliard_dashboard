@@ -10,6 +10,7 @@ import CartList from '../component/CartList';
 import ItemList from '../component/ItemList';
 import CustomTabPanel from '../component/CustomTabPanel';
 import { setPaginate } from '../counterSlice';
+import BarcodeScanComponent from '../component/BarcodeScanComponent';
 
 export const CounterTable = () => {
 

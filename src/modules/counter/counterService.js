@@ -87,4 +87,16 @@ export const counterService = {
         
         return response;
     },
+    checkout: async ( payload, id, dispatch) => {
+        const response = await postRequest(`${endpoints.order}/${id}`, payload);
+        await httpServiceHandler(dispatch, response);
+       
+        if (response.status === 200) {
+            dispatch(updateNotification({
+                variant : 'success',
+                  message : response.message
+            }))
+        }
+        return response;
+    },
 };

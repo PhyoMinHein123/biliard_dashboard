@@ -22,6 +22,7 @@ import { packageRoutes } from "./modules/package/packageRoutes";
 import { billRoutes } from "./modules/bill/billRoutes";
 import { paymentRoutes } from "./modules/payment/paymentRoutes";
 import { roleRoutes } from "./modules/role/roleRoutes";
+import { orderRoutes } from "./modules/order/orderRoutes";
 
 
 export const routers = createBrowserRouter([
@@ -48,6 +49,7 @@ export const routers = createBrowserRouter([
             ...billRoutes,
             ...paymentRoutes,
             ...roleRoutes,
+            ...orderRoutes
         ],
     },
     {

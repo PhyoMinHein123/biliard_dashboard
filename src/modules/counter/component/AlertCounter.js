@@ -11,8 +11,9 @@ import { alertCounterToggle } from '../../../shares/shareSlice';
 import { Grid } from '@mui/material';
 import { ValidationMessage } from '../../../shares/ValidationMessage';
 
-export default function AlertCounter({submitOrder}) {
+export default function AlertCounter({submitOrder, submitOrder2}) {
 
+    const [endtime, setEndTime] = React.useState()
     const { showAlertCounter } = useSelector(state => state.share)
     const dispatch = useDispatch();
   
@@ -90,27 +91,16 @@ export default function AlertCounter({submitOrder}) {
                                 </InputLabel>
                                 <OutlinedInput
                                     type="text"
-                                    // onChange={(e) => {
-                                    //   const timeValue = e.target.value;
-                                    //   const [hours, minutes] = timeValue.split(":");
-                                    //   if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59) {
-                                    //     payloadHandler(
-                                    //       payload,
-                                    //       timeValue,
-                                    //       "hour",
-                                    //       (updateValue) => {
-                                    //         setPayload(updateValue);
-                                    //       }
-                                    //     );
-                                    //   }
-                                    // }}
+                                    onChange={(e) => {
+                                        setEndTime(e.target.value)
+                                    }}
                                     name="hour"
                                     placeholder="Enter Time (hh:mm)"
                                 />
                                 <ValidationMessage field={"hour"} />
                             </Stack>                        
 
-                                <Button sx={{ mt: 1 }} variant="contained" onClick={handleClickOpen}>
+                                <Button sx={{ mt: 1 }} variant="contained" onClick={()=>submitOrder2(endtime)}>
                                     Start With Hours
                                 </Button>
                             </Grid>
